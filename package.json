@@ -1,11 +1,15 @@
 {
   "name": "yamu",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "",
   "main": "index.js",
+  "bin": "bin/new",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "elona2011",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.11.0"
+  }
 }
