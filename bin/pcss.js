@@ -7,22 +7,27 @@ const cssnext = require("postcss-cssnext")
 const program = require('commander')
 
 program
-    .command('watch <file>')
-    .action(file => {
-        console.log('watching pcss file...', file)
-        file = path.join(process.cwd(), file)
-        fs.watch(file, e => parseCss(file))
-    })
+    .option('-w, --watch <file>')
+    .option('-f, --file <file>')
     .parse(process.argv)
 
-program
-    .command('parse <file>')
-    .action(file => {
-        file = path.join(process.cwd(), file)
-        parseCss(file)
-    })
+if (program.watch) {
+    let file = program.watch
+    console.log('111', file)
+    
+    console.log('watching pcss file...', file)
+    file = path.join(process.cwd(), file)
+    fs.watch(file, e => parseCss(file))
+}
 
-program.parse(process.argv)
+if (program.file) {
+    let file = program.parse
+    console.log('222', file)
+    console.log('333', process.cwd())
+    
+    file = path.join(process.cwd(), file)
+    parseCss(file)
+}
 
 function parseCss(dir) {
     let fileName = path.basename(dir, '.pcss'),

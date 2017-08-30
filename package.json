@@ -1,11 +1,12 @@
 {
     "name": "yamu",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "",
     "main": "index.js",
     "bin": {
         "tpl": "bin/tpl.js",
-        "pcss": "bin/pcss.js"
+        "pcss": "bin/pcss.js",
+        "server": "bin/server.js"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,6 +16,7 @@
     "dependencies": {
         "commander": "^2.11.0",
         "postcss": "^6.0.8",
-        "postcss-cssnext": "^3.0.2"
+        "postcss-cssnext": "^3.0.2",
+        "opn": "^5.1.0"
     }
 }
