@@ -1,22 +1,23 @@
 {
-    "name": "yamu",
-    "version": "0.0.15",
-    "description": "",
-    "main": "index.js",
-    "bin": {
-        "tpl": "bin/tpl.js",
-        "pcss": "bin/pcss.js",
-        "server": "bin/server.js"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "elona2011",
-    "license": "ISC",
-    "dependencies": {
-        "commander": "^2.11.0",
-        "postcss": "^6.0.8",
-        "postcss-cssnext": "^3.0.2",
-        "opn": "^5.1.0"
-    }
+  "name": "yamu",
+  "version": "0.0.16",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "tpl": "bin/tpl.js",
+    "pcss": "bin/pcss.js",
+    "server": "bin/server.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "elona2011",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^1.7.0",
+    "commander": "^2.11.0",
+    "opn": "^5.1.0",
+    "postcss": "^6.0.8",
+    "postcss-cssnext": "^3.0.2"
+  }
 }

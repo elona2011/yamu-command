@@ -5,26 +5,29 @@ const path = require('path');
 const postcss = require('postcss');
 const cssnext = require("postcss-cssnext")
 const program = require('commander')
+const chokidar = require('chokidar');
 
 program
-    .option('-w, --watch <file>')
+    .option('-w, --watch <dir>')
     .option('-f, --file <file>')
     .parse(process.argv)
 
 if (program.watch) {
-    let file = program.watch
-    console.log('111', file)
-    
-    console.log('watching pcss file...', file)
-    file = path.join(process.cwd(), file)
-    fs.watch(file, e => parseCss(file))
+    let dir = program.watch
+
+    console.log('watching pcss file...', dir)
+    dir = path.join(process.cwd(), dir, '**/*.pcss')
+    console.log('dir', dir)
+    chokidar.watch(dir)
+        .on('change', p => {
+            console.log('p', p)
+            parseCss(p)
+        })
 }
 
 if (program.file) {
     let file = program.parse
-    console.log('222', file)
-    console.log('333', process.cwd())
-    
+
     file = path.join(process.cwd(), file)
     parseCss(file)
 }

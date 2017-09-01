@@ -1,10 +1,13 @@
 #!/usr/bin/env node
+
 const http = require('http')
 const url = require('url')
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
 const opn = require('opn')
 const program = require('commander')
+const spawn = require('child_process').spawn;
 
 let port = 9000,
     dir = path.join(process.cwd(), 'src')
@@ -22,7 +25,23 @@ if (program.dir) {
     dir = path.join(process.cwd(), program.dir)
 }
 
-console.log('server starting at', dir, '...')
+console.log('watching css file at', dir, '...')
+if (os.platform() === 'win32') {
+    var cmd = 'npm.cmd'
+} else {
+    var cmd = 'npm'
+}
+const pcss = spawn(cmd, ['run', 'pcss', '--', '-w', program.dir])
+pcss.stdout.on('data', d => {
+    //不换行
+    process.stdout.write(`pcss: ${d}`)
+
+    //有换行
+    // console.log(`pcss: ${d}`)
+})
+// exec('npm run pcss -- -w ' + program.dir)
+
+console.log('starting server at', dir, '...')
 
 http.createServer(function(req, res) {
     console.log(`${req.method} ${req.url}`)
