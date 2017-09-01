@@ -16,7 +16,8 @@ if (program.watch) {
     let dir = program.watch
 
     console.log('watching pcss file...', dir)
-    dir = path.join(process.cwd(), dir, '**/*.pcss')
+
+    dir = path.resolve(process.cwd(), dir, '**/*.pcss')
     console.log('dir', dir)
     chokidar.watch(dir)
         .on('change', p => {

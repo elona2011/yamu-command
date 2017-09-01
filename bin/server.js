@@ -10,7 +10,7 @@ const program = require('commander')
 const spawn = require('child_process').spawn;
 
 let port = 9000,
-    dir = path.join(process.cwd(), 'src')
+    dir = path.resolve(process.cwd(), process.env.npm_package_config_dir || '')
 
 program
     .option('-d, --dir <dir>')
@@ -22,7 +22,7 @@ if (program.port) {
 }
 
 if (program.dir) {
-    dir = path.join(process.cwd(), program.dir)
+    dir = path.resolve(process.cwd(), program.dir)
 }
 
 console.log('watching css file at', dir, '...')
@@ -31,12 +31,12 @@ if (os.platform() === 'win32') {
 } else {
     var cmd = 'npm'
 }
-const pcss = spawn(cmd, ['run', 'pcss', '--', '-w', program.dir])
+const pcss = spawn(cmd, ['run', 'pcss', '--', '-w', dir])
 pcss.stdout.on('data', d => {
-    //不换行
+    //输出无空行
     process.stdout.write(`pcss: ${d}`)
 
-    //有换行
+    //输出有空行
     // console.log(`pcss: ${d}`)
 })
 // exec('npm run pcss -- -w ' + program.dir)
