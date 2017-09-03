@@ -1,29 +1,47 @@
 const path = require('path')
+const mime = require('mime')
+const {
+    Writable
+} = require('stream')
+const {
+    StringDecoder
+} = require('string_decoder');
 
-const mimeType = {
-    '.ico': 'image/x-icon',
-    '.html': 'text/html',
-    '.js': 'application/javascript',
-    '.json': 'application/json',
-    '.css': 'text/css',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.wav': 'audio/wav',
-    '.mp3': 'audio/mpeg',
-    '.svg': 'image/svg+xml',
-    '.pdf': 'application/pdf',
-    '.doc': 'application/msword',
-    '.eot': 'appliaction/vnd.ms-fontobject',
-    '.ttf': 'aplication/font-sfnt'
-};
 
-function r200(res, {
-    data,
-    filePath
-}) {
-    const ext = path.parse(filePath).ext
-    res.setHeader('Content-type', mimeType[ext] || 'text/plain')
-    res.end(data)
+const inject = require('../inject/inject')
+
+class R200 extends Writable {
+    constructor(res, filePath, options) {
+        super(options)
+        this.res = res
+        this.ext = path.parse(filePath).ext
+        this.res.setHeader('content-type', mime.lookup(this.ext) || 'text/plain')
+        this.decoder = new StringDecoder('utf8')
+        this.data = ''
+    }
+
+    _write(chunk, encoding, callback) {
+        if (this.res.getHeader('content-type') === 'text/html') {
+            this.data += this.decoder.write(chunk)
+            console.log('chunk', chunk)
+        } else {
+            this.res.write(chunk)
+        }
+        callback()
+    }
+
+    _final(callback) {
+        if (this.res.getHeader('content-type') === 'text/html') {
+            this.data += this.decoder.end()
+            if (this.data.indexOf('</body>') !== -1) {
+                this.data = inject(this.data)
+            }
+            this.res.end(this.data)
+        } else {
+            this.res.end()
+        }
+        callback()
+    }
 }
 
-module.exports = r200
+module.exports = R200

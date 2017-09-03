@@ -2,8 +2,8 @@ nodejs实现的前端工程化命令行
 
 # feature
 
-* http server
-* css file watch and compile
+* http server with auto reloading
+* css file watching and compiling
 * template
 
 # install

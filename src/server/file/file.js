@@ -5,7 +5,7 @@ const path = require('path')
 const chokidar = require('chokidar');
 
 const r404 = require('../res/r404')
-const r200 = require('../res/r200')
+const R200 = require('../res/r200')
 const r500 = require('../res/r500')
 const r302 = require('../res/r302')
 const inject = require('../inject/inject')
@@ -27,30 +27,22 @@ function doFile(req, res, dir) {
             return
         }
 
-        fs.readFile(filePath, function (err, data) {
-            if (err) {
-                r500(res, {
-                    err
-                })
-            } else {
-                if (path.extname(filePath) === '.html')
-                    data = inject(data)
-                r200(res, {
-                    data,
-                    filePath
-                })
-            }
-        })
+        let r200 = new R200(res, filePath)
+        fs.createReadStream(filePath)
+            .on('error', err => {
+                r500(res, err)
+            })
+            .pipe(r200)
     })
 }
 
 let watcher
 
 function watchFileChange(ws, dir) {
-    if(watcher){
+    if (watcher) {
         watcher.close()
     }
-    
+
     watcher = chokidar.watch(dir, {
             ignored: /\.pcss$/
         })
