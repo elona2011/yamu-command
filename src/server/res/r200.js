@@ -24,10 +24,11 @@ class R200 extends Writable {
         if (this.res.getHeader('content-type') === 'text/html') {
             this.data += this.decoder.write(chunk)
             console.log('chunk', chunk)
+            callback()
         } else {
-            this.res.write(chunk)
+            this.res.write(chunk, callback)
+            console.log('chunk', chunk)
         }
-        callback()
     }
 
     _final(callback) {
@@ -36,11 +37,10 @@ class R200 extends Writable {
             if (this.data.indexOf('</body>') !== -1) {
                 this.data = inject(this.data)
             }
-            this.res.end(this.data)
+            this.res.end(this.data, callback)
         } else {
-            this.res.end()
+            this.res.end(null, callback)
         }
-        callback()
     }
 }
 
