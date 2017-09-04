@@ -8,7 +8,7 @@ const {
 
 function server(dir, port) {
     http.createServer(function (req, res) {
-        console.log(`${req.method} ${req.url}`)
+        console.log(`http: ${req.method} ${req.url}`)
 
         doFile(req, res, dir)
     }).listen(+port)
@@ -17,7 +17,7 @@ function server(dir, port) {
         port: 19009
     })
     wss.on('connection', function connection(ws) {
-        console.log('connection')
+        console.log('web socket connected')
         watchFileChange(ws, dir)
     });
 }

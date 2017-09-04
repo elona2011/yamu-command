@@ -13,7 +13,7 @@ const inject = require('../inject/inject')
 function doFile(req, res, dir) {
     let filePath = getFilePath(dir, req.url)
 
-    fs.exists(filePath, function (exists) {
+    fs.exists(filePath, function(exists) {
         if (!exists) {
             r404(res, {
                 filePath
@@ -47,9 +47,8 @@ function watchFileChange(ws, dir) {
             ignored: /\.pcss$/
         })
         .on('change', p => {
-            console.log('detect file "', p, '" changed')
-            ws.send('reload', err => {
-                console.log(err)
+            ws.send('reload', () => {
+                console.log('detected file "' + p + '" changed, reloaded the page')
             })
         })
 }

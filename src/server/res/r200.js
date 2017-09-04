@@ -7,7 +7,6 @@ const {
     StringDecoder
 } = require('string_decoder');
 
-
 const inject = require('../inject/inject')
 
 class R200 extends Writable {
@@ -23,11 +22,11 @@ class R200 extends Writable {
     _write(chunk, encoding, callback) {
         if (this.res.getHeader('content-type') === 'text/html') {
             this.data += this.decoder.write(chunk)
-            console.log('chunk', chunk)
+            // console.log('chunk', chunk)
             callback()
         } else {
             this.res.write(chunk, callback)
-            console.log('chunk', chunk)
+            // console.log('chunk', chunk)
         }
     }
 
