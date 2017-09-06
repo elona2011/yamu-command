@@ -2,15 +2,21 @@ const { readFileSync, writeFileSync, readFile, writeFile, accessSync, lstatSync,
 const { join } = require('path')
 const { Converter } = require('showdown')
 
-const isDir = dir => lstatSync(dir).isDirectory()
+const isDir = dir => {
+    let s
+    try {
+        s = lstatSync(dir)
+    }
+    catch (e) {
+        return false
+    }
+    return s.isDirectory()
+}
 
 function loopDir(dirF, dirT) {
     if (!isDir(dirF)) throw new Error('dir is not a directory')
 
-    console.log('dirT', dirT)
-
     if (!isDir(dirT)) {
-        console.log('dirT', dirT)
         mkdirSync(dirT)
     }
 
@@ -28,12 +34,15 @@ function copyR(dirF, dirT) {
     if (!isDir(dirF)) throw new Error('dir is not a directory')
 
     readdirSync(dirF).forEach(d => {
-        if (isDir(join(dirF, d))) {
-            mkdirSync(join(dirT, d))
-            copyR(join(dirF, d), join(dirT, d))
+        let source = join(dirF, d),
+            target = join(dirT, d)
+        if (isDir(source)) {
+            if (!isDir(target))
+                mkdirSync(target)
+            copyR(source, target)
         } else {
-            console.log('writeFileSync', join(dirT, d), join(dirF, d))
-            writeFileSync(join(dirT, d), readFileSync(join(dirF, d)))
+            // console.log('writeFileSync', target, source)
+            writeFileSync(target, readFileSync(source))
         }
     })
 }
@@ -47,7 +56,9 @@ function writeReadmeToHtml(dir) {
     readFile(indexPath, 'utf8', (err, d) => {
         let index = d.indexOf('<script ')
         let all = d.slice(0, index) + content + d.slice(index)
-        writeFile(indexPath, all, 'utf8', err => console.log(err))
+        writeFile(indexPath, all, 'utf8', err => {
+            if (err) throw err
+        })
     })
 }
 
@@ -58,7 +69,7 @@ function isProject(dir) {
         accessSync(join(dir, 'README.md'))
         accessSync(join(dir, 'index.html'))
     } catch (e) {
-        console.log('accessSync', dir, e)
+        // console.log('accessSync', dir, e)
         return false
     }
     return true
