@@ -1,0 +1,34 @@
+{
+    "brace_style": "none,preserve-inline",
+    "indent_size": 4,
+    "indent_char": " ",
+    "css": {
+        "indent_size": 2
+    },
+    "beautify.language": {
+        "js": {
+            "type": [
+                "javascript",
+                "json"
+            ],
+            "filename": [
+                ".jshintrc",
+                ".jsbeautify"
+            ]
+        },
+        "css": {
+            "type": [
+                "css",
+                "css"
+            ],
+            "ext": [
+                "css",
+                "pcss"
+            ]
+        },
+        "html": [
+            "htm",
+            "html"
+        ]
+    }
+}

@@ -37,7 +37,7 @@ function parseCss(dir) {
     let fileName = path.basename(dir, '.pcss'),
         filePath = path.dirname(dir)
 
-    console.log('parsing pcss file...')
+    console.log('parsing pcss file "' + dir + '" ...')
     fs.readFile(dir, (err, css) => {
         postcss([cssnext])
             .process(css, {

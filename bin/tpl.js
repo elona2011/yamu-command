@@ -6,11 +6,11 @@ const path = require('path')
 let program = require('commander')
 
 let target,
-    fileList = ['index.html', 'index.js', 'index.css']
+    fileList = ['index.html', 'index.js', 'index.css', 'README.md']
 
 program
     .arguments('<dir>')
-    .action(function (dir) {
+    .action(function(dir) {
         console.log('dir', dir)
         target = dir
     })

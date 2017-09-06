@@ -1,28 +1,30 @@
 {
-  "name": "yamu",
-  "version": "0.0.23",
-  "description": "",
-  "main": "index.js",
-  "bin": {
-    "tpl": "bin/tpl.js",
-    "pcss": "bin/pcss.js",
-    "server": "bin/server.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "elona2011",
-  "license": "ISC",
-  "dependencies": {
-    "chokidar": "^1.7.0",
-    "commander": "^2.11.0",
-    "mime": "^1.4.0",
-    "opn": "^5.1.0",
-    "postcss": "^6.0.8",
-    "postcss-cssnext": "^3.0.2",
-    "ws": "^3.1.0"
-  },
-  "devDependencies": {
-    "mocha": "^3.5.0"
-  }
+    "name": "yamu",
+    "version": "0.0.27",
+    "description": "",
+    "main": "index.js",
+    "bin": {
+        "tpl": "bin/tpl.js",
+        "pcss": "bin/pcss.js",
+        "server": "bin/server.js",
+        "product": "bin/product.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "elona2011",
+    "license": "ISC",
+    "dependencies": {
+        "chokidar": "^1.7.0",
+        "commander": "^2.11.0",
+        "mime": "^1.4.0",
+        "opn": "^5.1.0",
+        "postcss": "^6.0.8",
+        "postcss-cssnext": "^3.0.2",
+        "showdown": "^1.7.3",
+        "ws": "^3.1.0"
+    },
+    "devDependencies": {
+        "mocha": "^3.5.0"
+    }
 }
