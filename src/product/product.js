@@ -1,50 +1,54 @@
 const { readFileSync, writeFileSync, readFile, writeFile, accessSync, lstatSync, readdirSync, mkdirSync, createReadStream, createWriteStream } = require('fs')
-const { join } = require('path')
+const { join, dirname } = require('path')
 const { Converter } = require('showdown')
 
-const isDir = dir => {
+const getDirStat = dir => {
     let s
     try {
         s = lstatSync(dir)
     }
     catch (e) {
-        return false
+        return null
     }
-    return s.isDirectory()
+    if (s.isDirectory()) return 'dir'
+    if (s.isFile()) return 'file'
 }
 
 function loopDir(dirF, dirT) {
-    if (!isDir(dirF)) throw new Error('dir is not a directory')
-
-    if (!isDir(dirT)) {
-        mkdirSync(dirT)
-    }
+    if (getDirStat(dirF) !== 'dir') throw new Error('dir is not a directory')
 
     if (isProject(dirF)) {
         copyR(dirF, dirT)
         writeReadmeToHtml(dirT)
     } else {
         readdirSync(dirF)
-            .filter(d => isDir(join(dirF, d)))
+            .filter(d => getDirStat(join(dirF, d)) === 'dir')
             .forEach(d => loopDir(join(dirF, d), join(dirT, d)))
     }
 }
 
 function copyR(dirF, dirT) {
-    if (!isDir(dirF)) throw new Error('dir is not a directory')
+    if (getDirStat(dirF) !== 'dir') throw new Error('source dir is not a directory')
+
+    mkDirLoop(dirT)
 
     readdirSync(dirF).forEach(d => {
         let source = join(dirF, d),
             target = join(dirT, d)
-        if (isDir(source)) {
-            if (!isDir(target))
-                mkdirSync(target)
+        if (getDirStat(source) === 'dir') {
+            mkDirLoop(target)
             copyR(source, target)
         } else {
-            // console.log('writeFileSync', target, source)
             writeFileSync(target, readFileSync(source))
         }
     })
+}
+
+function mkDirLoop(dir) {
+    if (getDirStat(dir) === null) {
+        mkDirLoop(dirname(dir))
+        mkdirSync(dir)
+    }
 }
 
 function writeReadmeToHtml(dir) {
@@ -63,13 +67,12 @@ function writeReadmeToHtml(dir) {
 }
 
 function isProject(dir) {
-    if (!isDir(dir)) return false
+    if (getDirStat(dir) !== 'dir') return false
 
     try {
         accessSync(join(dir, 'README.md'))
         accessSync(join(dir, 'index.html'))
     } catch (e) {
-        // console.log('accessSync', dir, e)
         return false
     }
     return true

@@ -1,11 +1,8 @@
-const path = require('path')
-const mime = require('mime')
-const {
-    Writable
-} = require('stream')
-const {
-    StringDecoder
-} = require('string_decoder');
+const { parse } = require('path')
+const { statSync } = require('fs')
+const { lookup } = require('mime')
+const { Writable } = require('stream')
+const { StringDecoder } = require('string_decoder');
 
 const inject = require('../inject/inject')
 
@@ -13,8 +10,10 @@ class R200 extends Writable {
     constructor(res, filePath, options) {
         super(options)
         this.res = res
-        this.ext = path.parse(filePath).ext
-        this.res.setHeader('content-type', mime.lookup(this.ext) || 'text/plain')
+        this.ext = parse(filePath).ext
+        this.res.setHeader('content-type', lookup(this.ext) || 'text/plain')
+        this.size = statSync(filePath).size
+        this.res.setHeader('content-length', this.size)
         this.decoder = new StringDecoder('utf8')
         this.data = ''
     }
