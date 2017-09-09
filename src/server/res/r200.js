@@ -1,45 +1,42 @@
-const { parse } = require('path')
-const { statSync } = require('fs')
-const { lookup } = require('mime')
 const { Writable } = require('stream')
-const { StringDecoder } = require('string_decoder');
+const { createReadStream, readFileSync } = require('fs')
 
 const inject = require('../inject/inject')
+const { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag } = require('./header')
 
 class R200 extends Writable {
     constructor(res, filePath, options) {
         super(options)
         this.res = res
-        this.ext = parse(filePath).ext
-        this.res.setHeader('content-type', lookup(this.ext) || 'text/plain')
-        this.size = statSync(filePath).size
-        this.res.setHeader('content-length', this.size)
-        this.decoder = new StringDecoder('utf8')
-        this.data = ''
+        setHeaderContentType(res, filePath)
+        setHeaderETag(res)
     }
 
     _write(chunk, encoding, callback) {
-        if (this.res.getHeader('content-type') === 'text/html') {
-            this.data += this.decoder.write(chunk)
-            // console.log('chunk', chunk)
-            callback()
-        } else {
-            this.res.write(chunk, callback)
-            // console.log('chunk', chunk)
-        }
+        this.res.write(chunk, callback)
     }
 
     _final(callback) {
-        if (this.res.getHeader('content-type') === 'text/html') {
-            this.data += this.decoder.end()
-            if (this.data.indexOf('</body>') !== -1) {
-                this.data = inject(this.data)
-            }
-            this.res.end(this.data, callback)
-        } else {
-            this.res.end(null, callback)
-        }
+        this.res.end(null, callback)
     }
 }
 
-module.exports = R200
+function res200(res, filePath) {
+    let r200 = new R200(res, filePath)
+
+    if (getContentType(filePath) === 'text/html') {
+        let data = readFileSync(filePath, 'utf8')
+        data = inject(data)
+        res.setHeader('Content-Length', data.length)
+        r200.end(data)
+    } else {
+        setHeaderContentLength(res, filePath)
+        createReadStream(filePath)
+            .on('error', err => {
+                r500(res, err)
+            })
+            .pipe(r200)
+    }
+}
+
+module.exports = { res200 }

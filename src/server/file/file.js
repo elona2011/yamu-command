@@ -4,8 +4,10 @@ const path = require('path')
 
 const chokidar = require('chokidar');
 
+const { isRangeReq } = require('../req/range')
+
 const r404 = require('../res/r404')
-const R200 = require('../res/r200')
+const { res200 } = require('../res/r200')
 const r500 = require('../res/r500')
 const r302 = require('../res/r302')
 const inject = require('../inject/inject')
@@ -27,12 +29,8 @@ function doFile(req, res, dir) {
             return
         }
 
-        let r200 = new R200(res, filePath)
-        fs.createReadStream(filePath)
-            .on('error', err => {
-                r500(res, err)
-            })
-            .pipe(r200)
+        isRangeReq(req)
+        res200(res, filePath)
     })
 }
 
