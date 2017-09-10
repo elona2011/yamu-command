@@ -7,7 +7,8 @@
         "tpl": "bin/tpl.js",
         "pcss": "bin/pcss.js",
         "server": "bin/server.js",
-        "product": "bin/product.js"
+        "product": "bin/product.js",
+        "tsc": "tsc"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
