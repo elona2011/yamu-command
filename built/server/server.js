@@ -1,12 +1,14 @@
-var http = require('http');
-var WebSocket = require('ws');
-var _a = require('./file/file'), doFile = _a.doFile, watchFileChange = _a.watchFileChange;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const http = require("http");
+const WebSocket = require("ws");
+const { doFile, watchFileChange } = require('./file/file');
 function server(dir, port) {
     http.createServer(function (req, res) {
-        console.log("http: " + req.method + " " + req.url);
+        console.log(`http: ${req.method} ${req.url}`);
         doFile(req, res, dir);
     }).listen(+port);
-    var wss = new WebSocket.Server({
+    let wss = new WebSocket.Server({
         port: 19009
     });
     wss.on('connection', function connection(ws) {

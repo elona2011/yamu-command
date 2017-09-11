@@ -6,7 +6,7 @@ const path = require('path')
 let program = require('commander')
 
 let target,
-    fileList = ['index.html', 'index.js', 'index.css', 'README.md']
+    fileList = ['index.html', 'index.js', 'index.pcss', 'README.md']
 
 program
     .arguments('<dir>')

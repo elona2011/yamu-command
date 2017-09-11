@@ -1,24 +1,24 @@
-var url = require('url');
-var fs = require('fs');
-var path = require('path');
-var chokidar = require('chokidar');
-var isRangeReq = require('../req/range').isRangeReq;
-var r404 = require('../res/r404');
-var res200 = require('../res/r200').res200;
-var r500 = require('../res/r500');
-var r302 = require('../res/r302');
-var inject = require('../inject/inject');
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+const chokidar = require('chokidar');
+const { isRangeReq } = require('../req/range');
+const r404 = require('../res/r404');
+const { res200 } = require('../res/r200');
+const r500 = require('../res/r500');
+const r302 = require('../res/r302');
+const inject = require('../inject/inject');
 function doFile(req, res, dir) {
-    var filePath = getFilePath(dir, req.url);
+    let filePath = getFilePath(dir, req.url);
     fs.exists(filePath, function (exists) {
         if (!exists) {
             r404(res, {
-                filePath: filePath
+                filePath
             });
             return;
         }
         if (fs.statSync(filePath).isDirectory()) {
-            var dirUrl = req.url.substr(-1) === '/' ? req.url : req.url + '/';
+            let dirUrl = req.url.substr(-1) === '/' ? req.url : req.url + '/';
             r302(res, dirUrl);
             return;
         }
@@ -26,7 +26,7 @@ function doFile(req, res, dir) {
         res200(res, filePath);
     });
 }
-var watcher;
+let watcher;
 function watchFileChange(ws, dir) {
     if (watcher) {
         watcher.close();
@@ -34,19 +34,19 @@ function watchFileChange(ws, dir) {
     watcher = chokidar.watch(dir, {
         ignored: /\.pcss$/
     })
-        .on('change', function (p) {
-        ws.send('reload', function () {
+        .on('change', p => {
+        ws.send('reload', () => {
             console.log('detected file "' + p + '" changed, reloaded the page');
         });
     });
 }
 function getFilePath(dir, reqUrl) {
-    var parsedUrl = url.parse(reqUrl);
-    var filePath = dir + parsedUrl.pathname;
+    const parsedUrl = url.parse(reqUrl);
+    let filePath = dir + parsedUrl.pathname;
     return filePath;
 }
 module.exports = {
-    doFile: doFile,
-    getFilePath: getFilePath,
-    watchFileChange: watchFileChange
+    doFile,
+    getFilePath,
+    watchFileChange
 };

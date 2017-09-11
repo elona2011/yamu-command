@@ -1,8 +1,8 @@
-const { readFileSync, writeFileSync, readFile, writeFile, accessSync, lstatSync, readdirSync, mkdirSync, createReadStream, createWriteStream } = require('fs')
-const { join, dirname } = require('path')
-const { Converter } = require('showdown')
+import { readFileSync, writeFileSync, readFile, writeFile, accessSync, lstatSync, readdirSync, mkdirSync, createReadStream, createWriteStream } from 'fs'
+import { join, dirname } from 'path'
+import { Converter } from 'showdown'
 
-const getDirStat = dir => {
+const getDirStat = (dir: Dir) => {
     let s
     try {
         s = lstatSync(dir)
@@ -14,7 +14,7 @@ const getDirStat = dir => {
     if (s.isFile()) return 'file'
 }
 
-function loopDir(dirF, dirT) {
+function loopDir(dirF: Dir, dirT: Dir) {
     if (getDirStat(dirF) !== 'dir') throw new Error('dir is not a directory')
 
     if (isProject(dirF)) {
@@ -27,7 +27,7 @@ function loopDir(dirF, dirT) {
     }
 }
 
-function copyR(dirF, dirT) {
+function copyR(dirF: Dir, dirT: Dir) {
     if (getDirStat(dirF) !== 'dir') throw new Error('source dir is not a directory')
 
     mkDirLoop(dirT)
@@ -44,14 +44,14 @@ function copyR(dirF, dirT) {
     })
 }
 
-function mkDirLoop(dir) {
+function mkDirLoop(dir: Dir) {
     if (getDirStat(dir) === null) {
         mkDirLoop(dirname(dir))
         mkdirSync(dir)
     }
 }
 
-function writeReadmeToHtml(dir) {
+function writeReadmeToHtml(dir: Dir) {
     let converter = new Converter()
     let content = readFileSync(join(dir, 'README.md'), 'utf8')
     content = converter.makeHtml(content)
@@ -66,7 +66,7 @@ function writeReadmeToHtml(dir) {
     })
 }
 
-function isProject(dir) {
+function isProject(dir: Dir) {
     if (getDirStat(dir) !== 'dir') return false
 
     try {

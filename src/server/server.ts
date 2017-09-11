@@ -1,12 +1,12 @@
-const http = require('http')
-const WebSocket = require('ws')
+import * as http from 'http'
+import * as WebSocket from 'ws'
 
 const {
     doFile,
     watchFileChange
 } = require('./file/file')
 
-function server(dir, port) {
+function server(dir: Dir, port: Port) {
     http.createServer(function (req, res) {
         console.log(`http: ${req.method} ${req.url}`)
 

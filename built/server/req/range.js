@@ -1,5 +1,5 @@
 module.exports = {
-    isRangeReq: function (req) {
+    isRangeReq(req) {
         console.log(req.headers.Range);
     }
 };
