@@ -10,7 +10,7 @@ nodejs实现的前端工程化命令行
 # install
 
 ```
-npm install yamu --save-dev
+npm i -g yamu
 ```
 
 # config default setting
@@ -39,7 +39,8 @@ package.json
 # command line
 
 ```
-npm run server //=== npm run server -- -d src/d3
-npm run server -- -d <path>
-npm run product //生成静态网页
+yamu server 
+yamu server -d <path>
+yamu product //生成静态网页
+yamu npmrc 
 ```

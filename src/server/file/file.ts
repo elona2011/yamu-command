@@ -1,6 +1,6 @@
 const url = require('url')
-const fs = require('fs')
-const path = require('path')
+import { exists, statSync } from 'fs'
+import { IncomingMessage, ServerResponse } from "http";
 
 const chokidar = require('chokidar');
 
@@ -12,10 +12,10 @@ const r500 = require('../res/r500')
 const r302 = require('../res/r302')
 const inject = require('../inject/inject')
 
-function doFile(req, res, dir) {
+function doFile(req: IncomingMessage, res: ServerResponse, dir: Dir) {
     let filePath = getFilePath(dir, req.url)
 
-    fs.exists(filePath, function(exists) {
+    exists(filePath, function (exists) {
         if (!exists) {
             r404(res, {
                 filePath
@@ -23,10 +23,12 @@ function doFile(req, res, dir) {
             return
         }
 
-        if (fs.statSync(filePath).isDirectory()) {
-            let dirUrl = req.url.substr(-1) === '/' ? req.url : req.url + '/'
-            r302(res, dirUrl)
-            return
+        if (statSync(filePath).isDirectory()) {
+            if (req.url) {
+                let dirUrl = req.url.substr(-1) === '/' ? req.url : req.url + '/'
+                r302(res, dirUrl)
+                return
+            }
         }
 
         isRangeReq(req)
@@ -42,8 +44,8 @@ function watchFileChange(ws, dir) {
     }
 
     watcher = chokidar.watch(dir, {
-            ignored: /\.pcss$/
-        })
+        ignored: /\.pcss$/
+    })
         .on('change', p => {
             ws.send('reload', () => {
                 console.log('detected file "' + p + '" changed, reloaded the page')
