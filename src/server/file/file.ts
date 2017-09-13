@@ -2,7 +2,8 @@ const url = require('url')
 import { exists, statSync } from 'fs'
 import { IncomingMessage, ServerResponse } from "http";
 
-const chokidar = require('chokidar');
+import { FSWatcher, watch } from 'chokidar'
+import * as WebSocket from "ws";
 
 const { isRangeReq } = require('../req/range')
 
@@ -36,14 +37,14 @@ function doFile(req: IncomingMessage, res: ServerResponse, dir: Dir) {
     })
 }
 
-let watcher
+let watcher: FSWatcher
 
-function watchFileChange(ws, dir) {
+function watchFileChange(ws: WebSocket, dir: Dir) {
     if (watcher) {
         watcher.close()
     }
 
-    watcher = chokidar.watch(dir, {
+    watcher = watch(dir, {
         ignored: /\.pcss$/
     })
         .on('change', p => {
@@ -53,7 +54,7 @@ function watchFileChange(ws, dir) {
         })
 }
 
-function getFilePath(dir, reqUrl) {
+function getFilePath(dir: Dir, reqUrl = '') {
     const parsedUrl = url.parse(reqUrl)
     let filePath = dir + parsedUrl.pathname
 

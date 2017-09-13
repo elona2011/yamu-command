@@ -1,6 +1,6 @@
 {
   "name": "yamu",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "description": "",
   "main": "index.js",
   "bin": "./built/bin/bin.js",
@@ -13,6 +13,7 @@
   "dependencies": {
     "chokidar": "^1.7.0",
     "commander": "^2.11.0",
+    "copyfiles": "^1.2.0",
     "mime": "^1.4.0",
     "opn": "^5.1.0",
     "postcss": "^6.0.8",
@@ -21,9 +22,11 @@
     "ws": "^3.1.0"
   },
   "devDependencies": {
+    "@types/chokidar": "^1.7.2",
     "@types/node": "^8.0.28",
     "@types/showdown": "^1.7.1",
     "@types/ws": "^3.0.2",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "yamu": ">=0.0.43"
   }
 }

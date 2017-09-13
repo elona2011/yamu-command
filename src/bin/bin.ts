@@ -7,6 +7,16 @@ const product = require('./script/product')
 const server = require('./script/server')
 const tpl = require('./script/tpl')
 const npmrc = require('./script/npmrc')
+const copy = require('./script/copy')
+
+/**
+ * copy file
+ */
+program
+    .command('copy <dir> <target...>')
+    .action((dir: Dir, target: Dir[]) => {
+        copy(dir, ...target)
+    })
 
 /**
  * change .npmrc file
