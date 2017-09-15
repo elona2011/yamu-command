@@ -8,6 +8,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/commander@^2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@types/commander/-/commander-2.9.2.tgz#421f0cafd94a580991662711ea61fc37a5fcfede"
+  dependencies:
+    "@types/node" "*"
+
 "@types/fs-extra@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.2.tgz#7b9b1bbf85962cbe029b5a83c9b530d7c75af3ba"
@@ -2058,8 +2064,8 @@ yallist@^2.1.2:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 yamu@>=0.0.43:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.0.54.tgz#5f09460c47ae1c0a51e1699776e7971dca2f2a4a"
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.0.tgz#152c2f444f0792237cfccf81f53ea082cf1f8da7"
   dependencies:
     chokidar "^1.7.0"
     commander "^2.11.0"

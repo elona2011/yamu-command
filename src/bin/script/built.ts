@@ -6,7 +6,7 @@ import Output from '../../output/output'
 
 let output = new Output(__filename)
 
-module.exports = function product(dir: Dir) {
+function built(dir: Dir) {
     let dirFrom = resolve(process.cwd(), process.env.npm_package_config_product_from || 'src')
     let dirTo = resolve(process.cwd(), process.env.npm_package_config_product_to || 'built')
 
@@ -20,8 +20,13 @@ module.exports = function product(dir: Dir) {
 
     //run tsc commandline
     let child = spawn('tsc.cmd')
-    child.on('error',err=>{
-        output.log(err+'')
+    child.on('error', err => {
+        output.log(`${err}`)
+    })
+    child.on('close', code => {
+        output.log(`tsc exited with code ${code}`)
     })
     child.stdout.pipe(process.stdout)
 }
+
+export { built }

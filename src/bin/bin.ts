@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-const program = require('commander')
-
-const pcss = require('./script/pcss')
-const built = require('./script/built')
+import * as program from 'commander'
+import { pcss } from './script/pcss'
+import { built } from './script/built'
 const server = require('./script/server')
 const tpl = require('./script/tpl')
 const npmrc = require('./script/npmrc')
