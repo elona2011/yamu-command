@@ -3,20 +3,11 @@
 const program = require('commander')
 
 const pcss = require('./script/pcss')
-const product = require('./script/product')
+const built = require('./script/built')
 const server = require('./script/server')
 const tpl = require('./script/tpl')
 const npmrc = require('./script/npmrc')
-const copy = require('./script/copy')
-
-/**
- * copy file
- */
-program
-    .command('copy <dir> <target...>')
-    .action((dir: Dir, target: Dir[]) => {
-        copy(dir, ...target)
-    })
+import { copy, rm } from './script/shell'
 
 /**
  * change .npmrc file
@@ -42,9 +33,9 @@ program
  * produce the production code
  */
 program
-    .command('product [dir]')
+    .command('built [dir]')
     .action((dir: Dir) => {
-        product(dir)
+        built(dir)
     })
 
 /**
@@ -65,6 +56,24 @@ program
     .command('tpl [dir]')
     .action((dir: Dir) => {
         tpl(dir)
+    })
+
+/**
+* copy file
+*/
+program
+    .command('copy <src> <dest> [dir...]')
+    .action((src: Dir, dest: Dir, dir: Dir[]) => {
+        copy(src, dest, ...dir)
+    })
+
+/**
+ * delete directory
+ */
+program
+    .command('rm <dir>')
+    .action((dir: Dir) => {
+        rm(dir)
     })
 
 program.parse(process.argv)

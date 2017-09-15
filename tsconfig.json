@@ -2,9 +2,9 @@
     "compilerOptions": {
         "strictNullChecks": true,
         "module": "commonjs",
-        "outDir": "./built",
         "allowJs": true,
         "target": "es5",
+        "outDir": "built",
         "lib": ["es5", "es6", "dom"],
         "noImplicitAny": true,
         "removeComments": true

@@ -1,11 +1,11 @@
 {
   "name": "yamu",
-  "version": "0.0.44",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "bin": "./built/bin/bin.js",
   "scripts": {
-    "tsc": "tsc",
+    "built": "yamu built built",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "elona2011",
@@ -13,7 +13,8 @@
   "dependencies": {
     "chokidar": "^1.7.0",
     "commander": "^2.11.0",
-    "copyfiles": "^1.2.0",
+    "fs-extra": "^4.0.2",
+    "glob": "^7.1.2",
     "mime": "^1.4.0",
     "opn": "^5.1.0",
     "postcss": "^6.0.8",
@@ -23,7 +24,10 @@
   },
   "devDependencies": {
     "@types/chokidar": "^1.7.2",
+    "@types/fs-extra": "^4.0.2",
+    "@types/glob": "^5.0.32",
     "@types/node": "^8.0.28",
+    "@types/rimraf": "^2.0.2",
     "@types/showdown": "^1.7.1",
     "@types/ws": "^3.0.2",
     "mocha": "^3.5.0",
