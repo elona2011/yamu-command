@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "elona2011",
-  "license": "WTFPL",
+  "license": "MIT",
   "dependencies": {
     "chokidar": "^1.7.0",
     "commander": "^2.11.0",
