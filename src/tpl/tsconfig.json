@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "module": "commonjs",
+        "allowJs": true,
+        "target": "es5",
+        "outDir": "built",
+        "lib": ["es5", "es6", "dom"],
+        "noImplicitAny": true,
+        "removeComments": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
