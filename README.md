@@ -1,16 +1,17 @@
 nodejs实现的前端工程化命令行
 
-# feature
+# Features
 
 * http server with auto reloading
 * css file watching and compiling
 * template
 * produce a static website
 
-# install
+# Install
 
 ```
 npm i -g yamu
+yarn global add yamu
 ```
 
 # config default setting
@@ -36,7 +37,7 @@ package.json
 }
 ```
 
-# command line
+# Usage
 
 ```
 yamu server 

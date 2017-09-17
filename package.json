@@ -1,12 +1,12 @@
 {
   "name": "yamu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "bin": "./built/bin/bin.js",
   "scripts": {
     "built": "yamu built built",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "elona2011",
   "license": "MIT",
@@ -23,15 +23,20 @@
     "ws": "^3.1.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
     "@types/chokidar": "^1.7.2",
     "@types/commander": "^2.9.2",
     "@types/fs-extra": "^4.0.2",
     "@types/glob": "^5.0.32",
+    "@types/mocha": "^2.2.43",
     "@types/node": "^8.0.28",
     "@types/rimraf": "^2.0.2",
     "@types/showdown": "^1.7.1",
     "@types/ws": "^3.0.2",
+    "chai": "^4.1.2",
     "mocha": "^3.5.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2",
     "yamu": ">=0.0.43"
   }
 }
