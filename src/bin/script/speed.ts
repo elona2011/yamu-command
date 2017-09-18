@@ -1,7 +1,10 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
-module.exports = function () {
+/**
+ * change .npmrc file
+ */
+function npmrc() {
     let home = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME']
 
     let rc = readFileSync(resolve(home, '.npmrc'), 'utf8')
@@ -10,3 +13,12 @@ module.exports = function () {
     writeFileSync(resolve(home, '.npmrc'), rc1)
     writeFileSync(resolve(home, '.npmrc1'), rc)
 }
+
+/**
+ * change nodejs version
+ */
+function changeNode() {
+    
+}
+
+export { npmrc, changeNode }

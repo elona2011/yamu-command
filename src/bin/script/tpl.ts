@@ -1,19 +1,21 @@
-const fs = require('fs')
-const path = require('path')
+import { createReadStream, createWriteStream } from 'fs'
+import { join } from 'path'
 
-module.exports = function (dir:Dir) {
+function tpl(dir: Dir) {
     let target,
         fileList = ['index.html', 'index.js', 'index.pcss', 'README.md']
 
     if (typeof dir === 'undefined') {
         throw new Error('no dir given')
     }
-    let sourcePath = path.join(__dirname, '../src/tpl'),
-        targetPath = path.join(process.cwd(), dir)
+    let sourcePath = join(__dirname, '../src/tpl'),
+        targetPath = join(process.cwd(), dir)
 
     fileList.forEach(name => {
-        fs.createReadStream(path.join(sourcePath, name))
-            .pipe(fs.createWriteStream(path.join(targetPath, name))
+        createReadStream(join(sourcePath, name))
+            .pipe(createWriteStream(join(targetPath, name))
                 .on('close', () => console.log(`copying ${name} to folder`)))
     })
 }
+
+export { tpl }

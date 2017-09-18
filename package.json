@@ -1,6 +1,6 @@
 {
   "name": "yamu",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
   "bin": "./built/bin/bin.js",
@@ -30,6 +30,7 @@
     "@types/glob": "^5.0.32",
     "@types/mocha": "^2.2.43",
     "@types/node": "^8.0.28",
+    "@types/opn": "^3.0.28",
     "@types/rimraf": "^2.0.2",
     "@types/showdown": "^1.7.1",
     "@types/ws": "^3.0.2",

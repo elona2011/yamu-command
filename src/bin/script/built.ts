@@ -2,7 +2,8 @@ import { spawn } from 'child_process'
 import { resolve } from 'path'
 
 import { copy, rm } from './shell'
-import Output from '../../output/output'
+import Output from '../../common/output'
+import { cmdName } from '../../common/common'
 
 let output = new Output(__filename)
 
@@ -12,14 +13,12 @@ function built(dir: Dir) {
 
     output.log('delete built folder: ' + dirTo)
     rm(dirTo)
-    copy('src/**/*.html', 'src/**/*.pcss', 'src/**/*.md', 'built/')
+    copy('src/**/*.!(js*)', 'built/')
 
     //run tsc commandline
-    let tsc = 'tsc'
-    if (process.platform === 'win32') {
-        tsc = 'tsc.cmd'
-    }
-    let child = spawn(tsc)
+    let tsc = cmdName('tsc'),
+        child = spawn(tsc)
+
     child.on('error', err => {
         output.log(`${err}`)
     })
@@ -29,11 +28,11 @@ function built(dir: Dir) {
     child.stdout.pipe(process.stdout)
 }
 
-function getDirFrom() {
+function getDirFrom(): string {
     return resolve(process.cwd(), process.env.npm_package_config_product_from || 'src')
 }
 
-function getDirTo(dir: Dir) {
+function getDirTo(dir: Dir): string {
     let dirTo = resolve(process.cwd(), process.env.npm_package_config_product_to || 'built')
     if (dir) {
         dirTo = resolve(process.cwd(), dir)

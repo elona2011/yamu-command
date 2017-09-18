@@ -1,4 +1,4 @@
-const url = require('url')
+import { parse } from 'url'
 import { exists, statSync } from 'fs'
 import { IncomingMessage, ServerResponse } from "http";
 
@@ -7,8 +7,8 @@ import * as WebSocket from "ws";
 
 const { isRangeReq } = require('../req/range')
 
-const r404 = require('../res/r404')
-const { res200 } = require('../res/r200')
+import { r404 } from '../res/r404'
+import { res200 } from '../res/r200'
 const r500 = require('../res/r500')
 const r302 = require('../res/r302')
 const inject = require('../inject/inject')
@@ -55,14 +55,10 @@ function watchFileChange(ws: WebSocket, dir: Dir) {
 }
 
 function getFilePath(dir: Dir, reqUrl = '') {
-    const parsedUrl = url.parse(reqUrl)
+    const parsedUrl = parse(reqUrl)
     let filePath = dir + parsedUrl.pathname
 
     return filePath
 }
 
-module.exports = {
-    doFile,
-    getFilePath,
-    watchFileChange
-}
+export { doFile, getFilePath, watchFileChange }

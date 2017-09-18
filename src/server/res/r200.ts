@@ -1,11 +1,12 @@
 const { Writable } = require('stream')
 const { createReadStream, readFileSync } = require('fs')
+import { IncomingMessage, ServerResponse } from "http";
 
 const inject = require('../inject/inject')
 const { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag } = require('./header')
 
 class R200 extends Writable {
-    constructor(res, filePath, options) {
+    constructor(private res: ServerResponse, filePath: string, options) {
         super(options)
         this.res = res
         setHeaderContentType(res, filePath)
@@ -39,4 +40,4 @@ function res200(res, filePath) {
     }
 }
 
-module.exports = { res200 }
+export { res200 }

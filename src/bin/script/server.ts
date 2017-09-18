@@ -1,9 +1,12 @@
 import * as path from 'path'
-const opn = require('opn')
-const spawn = require('child_process').spawn;
-const server = require('../../server/server')
+import * as opn from 'opn'
+import { spawn } from 'child_process'
+import { server } from '../../server/server'
+import Output from '../../common/output'
 
-module.exports = function (dir: Dir, program: { port: number, dir: string }) {
+let output = new Output(__filename)
+
+function beforeServer(dir: Dir, program: { port: number, dir: string }) {
     let port = 9000
 
     if (!dir) {
@@ -18,7 +21,7 @@ module.exports = function (dir: Dir, program: { port: number, dir: string }) {
         dir = path.resolve(process.cwd(), program.dir)
     }
 
-    console.log('watching css file at', dir, '...')
+    output.log('watching css file at ' + dir)
     if (process.platform === 'win32') {
         var cmd = 'npm.cmd'
     } else {
@@ -33,8 +36,10 @@ module.exports = function (dir: Dir, program: { port: number, dir: string }) {
         // console.log(`pcss: ${d}`)
     })
 
-    console.log('starting server at', dir, '...')
+    output.log('starting server at ' + dir)
     server(dir, port)
 
     opn('http://localhost:' + port)
 }
+
+export { beforeServer }

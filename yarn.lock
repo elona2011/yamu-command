@@ -43,6 +43,12 @@
   version "8.0.28"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.28.tgz#86206716f8d9251cf41692e384264cbd7058ad60"
 
+"@types/opn@^3.0.28":
+  version "3.0.28"
+  resolved "http://snpm.cnsuning.com/@types%2fopn/-/opn-3.0.28.tgz#097d0d1c9b5749573a5d96df132387bb6d02118a"
+  dependencies:
+    "@types/node" "*"
+
 "@types/rimraf@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-2.0.2.tgz#7f0fc3cf0ff0ad2a99bb723ae1764f30acaf8b6e"
@@ -2168,8 +2174,8 @@ yallist@^2.1.2:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 yamu@>=0.0.43:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.1.tgz#2e884633f8899b2ff357dcc8b5ce11f886be0b00"
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.2.tgz#f5ef5ddeffd479f63fba4b7f76fc2c9ed0d56b66"
   dependencies:
     chokidar "^1.7.0"
     commander "^2.11.0"

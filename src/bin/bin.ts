@@ -3,10 +3,19 @@
 import * as program from 'commander'
 import { pcss } from './script/pcss'
 import { built } from './script/built'
-const server = require('./script/server')
-const tpl = require('./script/tpl')
-const npmrc = require('./script/npmrc')
+import { beforeServer } from './script/server'
+import { tpl } from './script/tpl'
+import { npmrc, changeNode } from './script/speed'
 import { copy, rm } from './script/shell'
+
+/**
+ * change nodejs version
+ */
+program
+    .command('nodejs')
+    .action(() => {
+        changeNode()
+    })
 
 /**
  * change .npmrc file
@@ -44,8 +53,8 @@ program
     .command('server [dir]')
     .option('-d, --dir <dir>')
     .option('-p, --port <port>')
-    .action((dir: Dir, options: { watch: string, file: string }) => {
-        server(dir, options)
+    .action((dir: Dir, options: { port: number, dir: string }) => {
+        beforeServer(dir, options)
     })
 
 /**
