@@ -1,28 +1,29 @@
-const { Writable } = require('stream')
-const { createReadStream, readFileSync } = require('fs')
+import { Writable } from 'stream'
+import { createReadStream, readFileSync } from 'fs'
 import { IncomingMessage, ServerResponse } from "http";
+import { WritableOptions } from 'stream'
 
-const inject = require('../inject/inject')
-const { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag } = require('./header')
+import { inject } from '../inject/inject'
+import { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag } from './header'
+import { r500 } from './r500'
 
 class R200 extends Writable {
-    constructor(private res: ServerResponse, filePath: string, options) {
+    constructor(private res: ServerResponse, filePath: string, options?: WritableOptions) {
         super(options)
-        this.res = res
         setHeaderContentType(res, filePath)
         setHeaderETag(res)
     }
 
-    _write(chunk, encoding, callback) {
+    _write(chunk: any, encoding: string, callback: Function) {
         this.res.write(chunk, callback)
     }
 
-    _final(callback) {
+    _final(callback: Function) {
         this.res.end(null, callback)
     }
 }
 
-function res200(res, filePath) {
+function res200(res: ServerResponse, filePath: string) {
     let r200 = new R200(res, filePath)
 
     if (getContentType(filePath) === 'text/html') {
@@ -33,7 +34,7 @@ function res200(res, filePath) {
     } else {
         setHeaderContentLength(res, filePath)
         createReadStream(filePath)
-            .on('error', err => {
+            .on('error', (err: Error) => {
                 r500(res, err)
             })
             .pipe(r200)

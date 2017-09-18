@@ -1,5 +1,7 @@
 nodejs实现的前端工程化命令行
 
+[![Build Status](https://travis-ci.org/elona2011/yamu-command.svg?branch=master)](https://travis-ci.org/elona2011/yamu-command)
+
 # Features
 
 * http server with auto reloading

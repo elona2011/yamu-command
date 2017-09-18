@@ -1,11 +1,11 @@
-const { parse } = require('path')
-const { statSync } = require('fs')
+import { parse } from 'path'
+import { statSync } from 'fs'
 
-const mime = require('mime')
+import { lookup } from 'mime'
 
 function getContentType(filePath) {
     let ext = parse(filePath).ext
-    return mime.lookup(ext)
+    return lookup(ext)
 }
 
 function setHeaderContentType(res, filePath) {
@@ -21,4 +21,4 @@ function setHeaderETag(res) {
     res.setHeader('ETag', "hwGsXizcT76zd05rupUiKxVtUsI=")
 }
 
-module.exports = { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag }
+export { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag }

@@ -28,6 +28,7 @@
     "@types/commander": "^2.9.2",
     "@types/fs-extra": "^4.0.2",
     "@types/glob": "^5.0.32",
+    "@types/mime": "^2.0.0",
     "@types/mocha": "^2.2.43",
     "@types/node": "^8.0.28",
     "@types/opn": "^3.0.28",

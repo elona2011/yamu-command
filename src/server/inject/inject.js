@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 let js
 
@@ -7,7 +7,7 @@ function inject(data) {
     if (!data) return
 
     if (!js) {
-        js = fs.readFileSync(path.join(__dirname, 'client.js'), 'utf8')
+        js = readFileSync(join(__dirname, 'client.js'), 'utf8')
     }
     let script = `<script type="application/javascript">
         ${js}
@@ -21,4 +21,4 @@ function inject(data) {
     return data
 }
 
-module.exports = inject
+export { inject }
