@@ -1,7 +1,5 @@
 nodejs实现的前端工程化命令行
 
-[![NPM version][npm-image]][npm-url]
-
 # Features
 
 * http server with auto reloading
