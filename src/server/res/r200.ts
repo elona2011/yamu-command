@@ -1,7 +1,6 @@
-import { Writable } from 'stream'
+import { Writable, WritableOptions } from 'stream'
 import { createReadStream, readFileSync } from 'fs'
 import { IncomingMessage, ServerResponse } from "http";
-import { WritableOptions } from 'stream'
 
 import { inject } from '../inject/inject'
 import { getContentType, setHeaderContentType, setHeaderContentLength, setHeaderETag } from './header'

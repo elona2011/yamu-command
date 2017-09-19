@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-let js
+let js: string
 
-function inject(data) {
+function inject(data: string) {
     if (!data) return
 
     if (!js) {
