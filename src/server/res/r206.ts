@@ -6,11 +6,10 @@ import { getContentType, setHeaderContentType, setHeaderContentLength, setHeader
 class R206 extends Writable {
     constructor(private res: ServerResponse, filePath: string, options?: WritableOptions) {
         super(options)
-        Object.assign(this, header)
         this.res.statusCode = 206
 
-        this.setHeaderContentType(filePath)
-        this.setHeaderContentLength(filePath)
+        // setHeaderContentType(filePath)
+        // setHeaderContentLength(filePath)
     }
 
     _write(chunk: any, encoding: string, callback: Function) {

@@ -3,8 +3,8 @@ import { join } from 'path'
 
 let js: string
 
-function inject(data: string) {
-    if (!data) return
+function inject(data: string): string {
+    if (!data) return ''
 
     if (!js) {
         js = readFileSync(join(__dirname, 'client.js'), 'utf8')
