@@ -1,9 +1,7 @@
 import { join } from 'path'
 import { copySync, removeSync } from 'fs-extra'
 import * as glob from 'glob'
-import Output from '../../common/output'
-
-let output = new Output(__filename)
+import {log} from '../../common/output'
 
 function copy(src: Dir, dest: Dir, ...dir: Dir[]) {
     if (dir.length) {
@@ -18,7 +16,7 @@ function copy(src: Dir, dest: Dir, ...dir: Dir[]) {
 
     function copySrc(src: Dir, dest: Dir) {
         glob.sync(src).forEach(n => {
-            output.log(n)
+            log(n)
             copySync(n, join(dest, n.slice(n.indexOf('/'))))
         })
     }
@@ -26,10 +24,10 @@ function copy(src: Dir, dest: Dir, ...dir: Dir[]) {
 
 function rm(dir: Dir) {
     glob.sync(dir).forEach(n => {
-        output.log(n)
+        log(n)
         removeSync(n)
     })
-    output.log('rm dir: ' + dir)
+    log('rm dir: ' + dir)
 }
 
 export { copy, rm }

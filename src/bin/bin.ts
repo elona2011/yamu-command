@@ -3,7 +3,7 @@
 import * as program from 'commander'
 import { pcss } from './script/pcss'
 import { built } from './script/built'
-import { beforeServer } from './script/server'
+import { serverInit } from './script/server'
 import { tpl } from './script/tpl'
 import { npmrc, changeNode } from './script/speed'
 import { copy, rm } from './script/shell'
@@ -54,7 +54,7 @@ program
     .option('-d, --dir <dir>')
     .option('-p, --port <port>')
     .action((dir: Dir, options: { port: number, dir: string }) => {
-        beforeServer(dir, options)
+        serverInit(dir, options)
     })
 
 /**

@@ -1,9 +1,10 @@
 import { expect } from 'chai'
 
-import { cmdName } from '../src/common/common'
+import { getCallerFileName } from '../src/common/output'
 
 describe('common test', () => {
-    it('default dirFrom === src', () => {
-        
+    it('getCallerFileName === common.test.ts', () => {
+        let output = getCallerFileName()
+        expect(output).to.equal('common.test.ts')
     })
 })

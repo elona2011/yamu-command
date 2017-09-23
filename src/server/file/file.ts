@@ -9,9 +9,12 @@ const { isRangeReq } = require('../req/range')
 
 import { r404 } from '../res/r404'
 import { res200 } from '../res/r200'
-const r500 = require('../res/r500')
-const r302 = require('../res/r302')
-const inject = require('../inject/inject')
+import { r500 } from '../res/r500'
+import { r302 } from '../res/r302'
+import { inject } from '../inject/inject'
+import Output from '../../common/output'
+
+const output = new Output(__filename)
 
 function doFile(req: IncomingMessage, res: ServerResponse, dir: Dir) {
     let filePath = getFilePath(dir, req.url)
@@ -49,7 +52,7 @@ function watchFileChange(ws: WebSocket, dir: Dir) {
     })
         .on('change', p => {
             ws.send('reload', () => {
-                console.log('detected file "' + p + '" changed, reloaded the page')
+                output.log('detected file "' + p + '" changed, reloaded the page')
             })
         })
 }

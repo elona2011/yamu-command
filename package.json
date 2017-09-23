@@ -6,6 +6,7 @@
   "bin": "./built/bin/bin.js",
   "scripts": {
     "built": "yamu built built",
+    "yamu": "yamu",
     "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "elona2011",

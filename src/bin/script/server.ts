@@ -6,7 +6,7 @@ import Output from '../../common/output'
 
 let output = new Output(__filename)
 
-function beforeServer(dir: Dir, program: { port: number, dir: string }) {
+function serverInit(dir: Dir, program: { port: number, dir: string }) {
     let port = 9000
 
     if (!dir) {
@@ -21,7 +21,7 @@ function beforeServer(dir: Dir, program: { port: number, dir: string }) {
         dir = path.resolve(process.cwd(), program.dir)
     }
 
-    output.log('watching css file at ' + dir)
+    output.log('watching pcss file at ' + dir)
     if (process.platform === 'win32') {
         var cmd = 'npm.cmd'
     } else {
@@ -42,4 +42,4 @@ function beforeServer(dir: Dir, program: { port: number, dir: string }) {
     opn('http://localhost:' + port)
 }
 
-export { beforeServer }
+export { serverInit }

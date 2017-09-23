@@ -23,12 +23,6 @@ package.json
 ```
 {
     ...
-    "scripts":{
-        "pcss": "pcss",
-        "tpl": "tpl",
-        "server": "server",
-        "product": "product"
-    },
     "config": {
         "dir: "src/d3", //default server folder
         "product": {
@@ -41,9 +35,22 @@ package.json
 
 # Usage
 
+server
+
 ```
 yamu server 
 yamu server -d <path>
-yamu product //生成静态网页
-yamu npmrc 
+```
+
+pcss
+
+```
+yamu pcss -f path/to/file.pcss
+yamu pcss -w path/to/file.pcss
+```
+
+npmrc
+
+```
+yamu npmrc
 ```

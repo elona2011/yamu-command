@@ -2,16 +2,14 @@ import { spawn } from 'child_process'
 import { resolve } from 'path'
 
 import { copy, rm } from './shell'
-import Output from '../../common/output'
+import { log } from '../../common/output'
 import { cmdName } from '../../common/common'
-
-let output = new Output(__filename)
 
 function built(dir: Dir) {
     let dirFrom = getDirFrom(),
         dirTo = getDirTo(dir)
 
-    output.log('delete built folder: ' + dirTo)
+    log('delete built folder: ' + dirTo)
     rm(dirTo)
     copy('src/**/*.!(js*)', 'built/')
 
@@ -20,10 +18,10 @@ function built(dir: Dir) {
         child = spawn(tsc)
 
     child.on('error', err => {
-        output.log(`${err}`)
+        log(`${err}`)
     })
     child.on('close', code => {
-        output.log(`tsc exited with code ${code}`)
+        log(`tsc exited with code ${code}`)
     })
     child.stdout.pipe(process.stdout)
 }
