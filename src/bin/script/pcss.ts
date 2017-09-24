@@ -5,34 +5,38 @@ import * as chokidar from 'chokidar'
 
 const cssnext = require("postcss-cssnext")
 
-function pcss(d: Dir, options: { watch: string, file: string }) {
-    if (options.watch) {
-        let dir = options.watch
+import { log } from '../../common/output'
 
-        console.log('watching pcss file...', dir)
+async function pcss(dir: string, options: { watch: string, file: string }) {
+    if (options.watch) {
+        dir = options.watch
+
+        log('watching pcss file ' + dir)
 
         dir = resolve(process.cwd(), dir, '**/*.pcss')
-        console.log('dir', dir)
         chokidar.watch(dir)
-            .on('change', (p: Dir) => {
-                console.log('p', p)
-                parseCss(p)
+            .on('change', async function (p: string) {
+                await parseCss(p)
             })
+    } else if (options.file) {
+        dir = options.file
+
+        dir = join(process.cwd(), dir)
+        await parseCss(dir)
+    } else if (dir) {
+        await parseCss(dir)
     }
+}
 
-    if (options.file) {
-        let file = options.file
+async function parseCss(dir: string): Promise<void> {
+    let fileName = basename(dir, '.pcss'),
+        filePath = dirname(dir)
 
-        file = join(process.cwd(), file)
-        parseCss(file)
-    }
-
-    function parseCss(dir: Dir) {
-        let fileName = basename(dir, '.pcss'),
-            filePath = dirname(dir)
-
-        console.log('parsing pcss file "' + dir + '" ...')
+    log('parsing pcss file "' + dir + '" ...')
+    await new Promise((res, rej) => {
         readFile(dir, (err, css) => {
+            if (err) rej()
+
             postcss([cssnext])
                 .process(css, {
                     from: dir,
@@ -42,10 +46,11 @@ function pcss(d: Dir, options: { watch: string, file: string }) {
                     writeFileSync(join(filePath, fileName + '.css'), result.css);
                     if (result.map)
                         writeFileSync(join(filePath, fileName + '.css.map'), result.map);
-                    console.log('parsing pcss file success!')
+                    log('parsing pcss file success!')
+                    res()
                 });
         });
-    }
+    })
 }
 
-export { pcss }
+export { pcss, parseCss }

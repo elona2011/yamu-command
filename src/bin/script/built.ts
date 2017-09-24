@@ -1,17 +1,17 @@
 import { spawn } from 'child_process'
 import { resolve } from 'path'
 
-import { copy, rm } from './shell'
+import { copyMul, rmGlob } from './shell'
 import { log } from '../../common/output'
 import { cmdName } from '../../common/common'
 
-function built(dir: Dir) {
+async function built(dir: string) {
     let dirFrom = getDirFrom(),
         dirTo = getDirTo(dir)
 
     log('delete built folder: ' + dirTo)
-    rm(dirTo)
-    copy('src/**/*.!(js*)', 'built/')
+    await rmGlob(dirTo)
+    copyMul('src/**/*!(.ts)', 'built/')
 
     //run tsc commandline
     let tsc = cmdName('tsc'),
@@ -30,7 +30,7 @@ function getDirFrom(): string {
     return resolve(process.cwd(), process.env.npm_package_config_product_from || 'src')
 }
 
-function getDirTo(dir: Dir): string {
+function getDirTo(dir: string): string {
     let dirTo = resolve(process.cwd(), process.env.npm_package_config_product_to || 'built')
     if (dir) {
         dirTo = resolve(process.cwd(), dir)

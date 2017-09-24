@@ -1,7 +1,7 @@
 import { basename } from 'path'
 
-function log(str: string): void {
-    console.log(getCallerFileName() + ':', str)
+function log(...str: any[]): void {
+    console.log(getCallerFileName() + ':', ...str)
 }
 
 function getCallerFileName(): string | void {
@@ -11,12 +11,13 @@ function getCallerFileName(): string | void {
 
     if (stack) {
         stackArr = stack.split('\n')
-        for (let i = 0; i < stackArr.length; i++) {
-            let r = /\(([^:]*):/.exec(stackArr[i])
+        for (let n of stackArr) {
+            let r = /\(([^:]*):/.exec(n)
             if (r && r.length > 1) {
                 fileNameArr.push(basename(r[1]))
                 if (fileNameArr.length > 1) {
-                    return fileNameArr[1]
+                    if (fileNameArr[fileNameArr.length - 1] !== fileNameArr[0])
+                        return fileNameArr[fileNameArr.length - 1]
                 }
             }
         }

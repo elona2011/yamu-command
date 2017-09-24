@@ -2,7 +2,7 @@
     "compilerOptions": {
         "strictNullChecks": true,
         "module": "commonjs",
-        "allowJs": true,
+        "allowJs": false,
         "target": "es5",
         "outDir": "built",
         "lib": ["es5", "es6", "dom"],

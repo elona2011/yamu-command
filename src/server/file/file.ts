@@ -12,11 +12,9 @@ import { res200 } from '../res/r200'
 import { r500 } from '../res/r500'
 import { r302 } from '../res/r302'
 import { inject } from '../inject/inject'
-import Output from '../../common/output'
+import { log } from '../../common/output'
 
-const output = new Output(__filename)
-
-function doFile(req: IncomingMessage, res: ServerResponse, dir: Dir) {
+function doFile(req: IncomingMessage, res: ServerResponse, dir: string) {
     let filePath = getFilePath(dir, req.url)
 
     exists(filePath, function (exists) {
@@ -42,7 +40,7 @@ function doFile(req: IncomingMessage, res: ServerResponse, dir: Dir) {
 
 let watcher: FSWatcher
 
-function watchFileChange(ws: WebSocket, dir: Dir) {
+function watchFileChange(ws: WebSocket, dir: string) {
     if (watcher) {
         watcher.close()
     }
@@ -52,12 +50,12 @@ function watchFileChange(ws: WebSocket, dir: Dir) {
     })
         .on('change', p => {
             ws.send('reload', () => {
-                output.log('detected file "' + p + '" changed, reloaded the page')
+                log('detected file "' + p + '" changed, reloaded the page')
             })
         })
 }
 
-function getFilePath(dir: Dir, reqUrl = '') {
+function getFilePath(dir: string, reqUrl = '') {
     const parsedUrl = parse(reqUrl)
     let filePath = dir + parsedUrl.pathname
 

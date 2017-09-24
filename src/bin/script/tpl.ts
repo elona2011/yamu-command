@@ -1,7 +1,7 @@
 import { createReadStream, createWriteStream } from 'fs'
 import { join } from 'path'
 
-function tpl(dir: Dir) {
+function tpl(dir: string) {
     let target,
         fileList = ['index.html', 'index.js', 'index.pcss', 'README.md']
 

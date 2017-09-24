@@ -1,16 +1,16 @@
-import * as path from 'path'
+import { resolve } from 'path'
 import * as opn from 'opn'
 import { spawn } from 'child_process'
 import { server } from '../../server/server'
-import Output from '../../common/output'
+import { pcss } from './pcss'
+import { log } from '../../common/output'
+import { cmdName } from '../../common/common'
 
-let output = new Output(__filename)
-
-function serverInit(dir: Dir, program: { port: number, dir: string }) {
+function serverInit(dir: string, program: { port: number, dir: string }) {
     let port = 9000
 
     if (!dir) {
-        dir = path.resolve(process.cwd(), process.env.npm_package_config_dir || '')
+        dir = resolve(process.cwd(), process.env.npm_package_config_dir || '')
     }
 
     if (program.port) {
@@ -18,25 +18,21 @@ function serverInit(dir: Dir, program: { port: number, dir: string }) {
     }
 
     if (program.dir) {
-        dir = path.resolve(process.cwd(), program.dir)
+        dir = resolve(process.cwd(), program.dir)
     }
 
-    output.log('watching pcss file at ' + dir)
-    if (process.platform === 'win32') {
-        var cmd = 'npm.cmd'
-    } else {
-        var cmd = 'npm'
-    }
-    const pcss = spawn(cmd, ['run', 'pcss', '--', '-w', dir])
-    pcss.stdout.on('data', (d: string) => {
-        //输出无空行
-        process.stdout.write(`pcss: ${d}`)
+    log('watching pcss file at ' + dir)
+    // pcss()
+    // const pcss = spawn(cmdName('yamu'), ['pcss', '-w', dir])
+    // pcss.stdout.on('data', (d: string) => {
+    //     //输出无空行
+    //     process.stdout.write(`pcss: ${d}`)
 
-        //输出有空行
-        // console.log(`pcss: ${d}`)
-    })
+    //     //输出有空行
+    //     // console.log(`pcss: ${d}`)
+    // })
 
-    output.log('starting server at ' + dir)
+    log('starting server at ' + dir)
     server(dir, port)
 
     opn('http://localhost:' + port)

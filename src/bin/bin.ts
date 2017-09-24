@@ -6,7 +6,7 @@ import { built } from './script/built'
 import { serverInit } from './script/server'
 import { tpl } from './script/tpl'
 import { npmrc, changeNode } from './script/speed'
-import { copy, rm } from './script/shell'
+import { copyMul, rmGlob } from './script/shell'
 
 /**
  * change nodejs version
@@ -33,7 +33,7 @@ program
     .command('pcss [dir]')
     .option('-w, --watch <dir>')
     .option('-f, --file <file>')
-    .action((dir: Dir, options: { watch: string, file: string }) => {
+    .action((dir: string, options: { watch: string, file: string }) => {
         pcss(dir, options)
     })
 
@@ -42,7 +42,7 @@ program
  */
 program
     .command('built [dir]')
-    .action((dir: Dir) => {
+    .action((dir: string) => {
         built(dir)
     })
 
@@ -53,7 +53,7 @@ program
     .command('server [dir]')
     .option('-d, --dir <dir>')
     .option('-p, --port <port>')
-    .action((dir: Dir, options: { port: number, dir: string }) => {
+    .action((dir: string, options: { port: number, dir: string }) => {
         serverInit(dir, options)
     })
 
@@ -62,7 +62,7 @@ program
  */
 program
     .command('tpl [dir]')
-    .action((dir: Dir) => {
+    .action((dir: string) => {
         tpl(dir)
     })
 
@@ -71,8 +71,8 @@ program
 */
 program
     .command('copy <src> <dest> [dir...]')
-    .action((src: Dir, dest: Dir, dir: Dir[]) => {
-        copy(src, dest, ...dir)
+    .action((src: string, dest: string, dir: string[]) => {
+        copyMul(src, dest, ...dir)
     })
 
 /**
@@ -80,8 +80,16 @@ program
  */
 program
     .command('rm <dir>')
-    .action((dir: Dir) => {
-        rm(dir)
+    .action(async (dir: string) => {
+        await rmGlob(dir)
     })
 
+program
+    .option('-v, --version')
+
 program.parse(process.argv)
+
+if (program.version) {
+    let version = require('../../../package.json').version
+    console.log(version)
+}
