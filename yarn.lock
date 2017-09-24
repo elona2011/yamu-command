@@ -263,8 +263,8 @@ caniuse-api@^2.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000718, caniuse-lite@^1.0.30000726:
-  version "1.0.30000736"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000736.tgz#df369dfb7ed4d77a8a01244252c6e2f7db9cc689"
+  version "1.0.30000737"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000737.tgz#8199a601dd54c096e1f8567bcb7461b94f0d4509"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -484,8 +484,8 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
 
 electron-to-chromium@^1.3.18:
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.21.tgz#a967ebdcfe8ed0083fc244d1894022a8e8113ea2"
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.22.tgz#4322d52c151406e3eaef74ad02676883e8416418"
 
 error-ex@^1.2.0:
   version "1.3.1"
@@ -2055,8 +2055,8 @@ yallist@^2.1.2:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 yamu@>=0.0.43:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.4.tgz#b8ce0c89643403f21685f4d4b2f269a0f4f32dfd"
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.5.tgz#655ec8055dc87c08e6a84c49911ba2e93ddbe92d"
   dependencies:
     chokidar "^1.7.0"
     commander "^2.11.0"

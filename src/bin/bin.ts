@@ -85,11 +85,6 @@ program
     })
 
 program
-    .option('-v, --version')
+    .version(require('../../package.json').version)
 
 program.parse(process.argv)
-
-if (program.version) {
-    let version = require('../../../package.json').version
-    console.log(version)
-}

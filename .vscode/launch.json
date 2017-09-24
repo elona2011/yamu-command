@@ -6,9 +6,9 @@
         "request": "launch",
         "name": "Launch Program",
         "program": "${file}",
-        "outFiles": [
-            "${workspaceRoot}/out/**/*.js"
-        ]
+        "args": ["-r", "ts-node/register", "${relativeFile}"],
+        "cwd": "${workspaceRoot}",
+        "protocol": "inspector"
     },
     {
         "name": "Test",
