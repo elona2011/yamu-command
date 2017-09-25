@@ -33,8 +33,8 @@ program
     .command('pcss [dir]')
     .option('-w, --watch <dir>')
     .option('-f, --file <file>')
-    .action((dir: string, options: { watch: string, file: string }) => {
-        pcss(dir, options)
+    .action((dir: string, { watch, file }: { watch: string, file: string }) => {
+        pcss({ dir, watch, file })
     })
 
 /**

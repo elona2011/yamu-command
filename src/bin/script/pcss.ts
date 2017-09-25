@@ -7,9 +7,14 @@ const cssnext = require("postcss-cssnext")
 
 import { log } from '../../common/output'
 
-async function pcss(dir: string, options: { watch: string, file: string }) {
-    if (options.watch) {
-        dir = options.watch
+/**
+ * 
+ * @param dir not available now
+ * @param options {watch: any directory, file: any path ended with .pcss}
+ */
+async function pcss({ watch, file, dir }: { watch?: string, file?: string, dir?: string }) {
+    if (watch) {
+        dir = watch
 
         log('watching pcss file ' + dir)
 
@@ -18,8 +23,8 @@ async function pcss(dir: string, options: { watch: string, file: string }) {
             .on('change', async function (p: string) {
                 await parseCss(p)
             })
-    } else if (options.file) {
-        dir = options.file
+    } else if (file) {
+        dir = file
 
         dir = join(process.cwd(), dir)
         await parseCss(dir)
@@ -28,6 +33,10 @@ async function pcss(dir: string, options: { watch: string, file: string }) {
     }
 }
 
+/**
+ * 
+ * @param dir any path ended with .pcss
+ */
 async function parseCss(dir: string): Promise<void> {
     let fileName = basename(dir, '.pcss'),
         filePath = dirname(dir)

@@ -5,6 +5,8 @@ import { doFile, watchFileChange } from './file/file'
 import { log } from '../common/output'
 
 function server(dir: string, port: number) {
+    log('starting server at', dir)
+    
     createServer(function (req: IncomingMessage, res: ServerResponse): void {
         log(`http: ${req.method} ${req.url}`)
 

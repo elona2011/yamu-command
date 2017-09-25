@@ -5,8 +5,8 @@ nodejs实现的前端工程化命令行
 # Features
 
 * http server with auto reloading
-* css file watching and compiling
-* template
+* file watching and compiling
+* support typescript
 * produce a static website
 * ts-node unit test
 
@@ -40,7 +40,7 @@ server
 
 ```
 yamu server 
-yamu server -d <path>
+yamu server <path>
 ```
 
 pcss
@@ -54,4 +54,11 @@ npmrc
 
 ```
 yamu npmrc
+```
+
+version
+
+```
+yamu -V
+yamu --version
 ```

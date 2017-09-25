@@ -21,18 +21,7 @@ function serverInit(dir: string, program: { port: number, dir: string }) {
         dir = resolve(process.cwd(), program.dir)
     }
 
-    log('watching pcss file at ' + dir)
-    // pcss()
-    // const pcss = spawn(cmdName('yamu'), ['pcss', '-w', dir])
-    // pcss.stdout.on('data', (d: string) => {
-    //     //输出无空行
-    //     process.stdout.write(`pcss: ${d}`)
-
-    //     //输出有空行
-    //     // console.log(`pcss: ${d}`)
-    // })
-
-    log('starting server at ' + dir)
+    pcss({ watch: dir })
     server(dir, port)
 
     opn('http://localhost:' + port)
