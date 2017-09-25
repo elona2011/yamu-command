@@ -1,7 +1,7 @@
 import { spawn } from 'child_process'
 import { resolve } from 'path'
 
-import { copyMul, rmGlob } from './shell'
+import { copyMul, rmRf } from './shell'
 import { log } from '../../common/output'
 import { cmdName } from '../../common/common'
 
@@ -10,7 +10,7 @@ async function built(dir: string) {
         dirTo = getDirTo(dir)
 
     log('delete built folder: ' + dirTo)
-    await rmGlob(dirTo)
+    await rmRf(dirTo)
     copyMul('src/**/*!(.ts)', 'built/')
 
     //run tsc commandline

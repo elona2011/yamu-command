@@ -8,6 +8,7 @@ nodejs实现的前端工程化命令行
 * css file watching and compiling
 * template
 * produce a static website
+* ts-node unit test
 
 # Install
 

@@ -1,6 +1,6 @@
 {
   "name": "yamu",
-  "version": "0.1.5",
+  "version": "0.1.10",
   "description": "",
   "main": "index.js",
   "bin": "./built/bin/bin.js",

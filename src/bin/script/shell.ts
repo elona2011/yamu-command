@@ -1,41 +1,48 @@
-import { join } from 'path'
-import { stat, mkdirSync, rmdirSync, createWriteStream, createReadStream, unlinkSync } from 'fs'
+import { resolve } from 'path'
+import { existsSync, stat, mkdirSync, rmdirSync, createWriteStream, createReadStream, unlinkSync } from 'fs'
 import * as glob from 'glob'
 import { log } from '../../common/output'
 
 async function copyMul(src: string, dest: string, ...dir: string[]) {
     if (dir.length) {
-        await copyGlob(src, dir[dir.length - 1])
-        await copyGlob(dest, dir[dir.length - 1])
+        await copyRf(src, dir[dir.length - 1])
+        await copyRf(dest, dir[dir.length - 1])
         for (let i = 0; i <= dir.length - 2; i++) {
-            await copyGlob(dir[i], dir[dir.length - 1])
+            await copyRf(dir[i], dir[dir.length - 1])
         }
     } else {
-        await copyGlob(src, dest)
+        await copyRf(src, dest)
     }
 }
 
+async function copyRf(src: string, dest: string): Promise<void> {
+    if (!existsSync(dest)) {
+        mkdirSync(dest)
+    }
+    await copyGlob(src, dest)
+}
+
 /**
- * 
- * @param src should be absolute path
- * @param dest should be absolute path
+ * copy files using glob pattern
+ * @param src glob pattern
+ * @param dest path
  */
 async function copyGlob(src: string, dest: string): Promise<void> {
     await new Promise((res, rej) => {
-        let basesrc: string
+        src = resolve(src)
+        dest = resolve(dest)
 
         glob(src, async (err, matches) => {
-            if (matches.length) {
-                basesrc = matches[0]
-            }
             for (let n of matches) {
-                let samePath = n.slice(basesrc.length)
+                let samePath = getAddedPath(src, n)
                 await new Promise((res1, rej1) => {
                     stat(n, (err, stats) => {
-                        let copyDest = join(dest, samePath)
+                        let copyDest = resolve(dest, samePath)
                         log('copy:', n, 'to', copyDest)
                         if (stats.isDirectory()) {
-                            mkdirSync(copyDest)
+                            if (!existsSync(copyDest)) {
+                                mkdirSync(copyDest)
+                            }
                             res1()
                         } else {
                             createReadStream(n)
@@ -50,6 +57,23 @@ async function copyGlob(src: string, dest: string): Promise<void> {
             res()
         })
     })
+}
+
+function getAddedPath(src: string, curSrc: string): string {
+    let baseSrc,
+        r = /([^*]+)\/.*\*/.exec(src)
+
+    if (r && r.length) {
+        baseSrc = r[1]
+    } else {
+        return ''
+    }
+
+    let path = curSrc.slice(baseSrc.length)
+    if (path.length && path[0] === '/') {
+        path = path.slice(1)
+    }
+    return path
 }
 
 async function rmGlob(dir: string): Promise<any> {
@@ -79,4 +103,8 @@ async function rmGlob(dir: string): Promise<any> {
     })
 }
 
-export { copyMul, copyGlob, rmGlob }
+async function rmRf(dir: string): Promise<any> {
+    await rmGlob(dir + '/**')
+}
+
+export { copyMul, copyGlob, copyRf, rmGlob, rmRf, getAddedPath }
