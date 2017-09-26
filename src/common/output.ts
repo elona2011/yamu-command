@@ -12,16 +12,23 @@ function getCallerFileName(): string | void {
     if (stack) {
         stackArr = stack.split('\n')
         for (let n of stackArr) {
-            let r = /\(([^:]*):/.exec(n)
-            if (r && r.length > 1) {
-                fileNameArr.push(basename(r[1]))
-                if (fileNameArr.length > 1) {
-                    if (fileNameArr[fileNameArr.length - 1] !== fileNameArr[0])
-                        return fileNameArr[fileNameArr.length - 1]
-                }
+            let path = getPathFromStack(n)
+            path && fileNameArr.push(basename(path))
+            if (fileNameArr.length > 1) {
+                if (fileNameArr[fileNameArr.length - 1] !== fileNameArr[0])
+                    return fileNameArr[fileNameArr.length - 1]
             }
         }
     }
 }
 
-export { log, getCallerFileName }
+function getPathFromStack(path: string): string {
+    let r = /\((.*):\d+:\d/.exec(path)
+    if (r && r.length > 1) {
+        return r[1]
+    } else {
+        return ''
+    }
+}
+
+export { log, getCallerFileName, getPathFromStack }

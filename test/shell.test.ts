@@ -3,10 +3,15 @@ import { resolve, join } from 'path'
 import { expect } from 'chai'
 import { copyGlob, copyRf, rmGlob, rmRf, getAddedPath } from '../src/bin/script/shell'
 
-describe('shell test', () => {
-    it('getAddedPath', () => {
+describe('shell test:', () => {
+    it('getAddedPath in linux', () => {
         let path = getAddedPath('a/b/c/**', 'a/b/c/d/e')
         expect(path).to.equal('d/e')
+    })
+
+    it('getAddedPath in windows', () => {
+        let path = getAddedPath('c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc\\**', 'c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc\\copytest')
+        expect(path).to.equal('copytest')
     })
 
     it('del a directory success', async () => {

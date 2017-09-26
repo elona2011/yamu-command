@@ -7,7 +7,7 @@ import { parseCss } from '../src/bin/script/pcss'
 let pcssPath = resolve(__dirname, './source/a.pcss'),
     cssPath = resolve(__dirname, './source/a.css')
 
-describe('pcss test', () => {
+describe('pcss test:', () => {
     it('can parse a simple pcss file', async function () {
         if (existsSync(cssPath)) {
             unlinkSync(cssPath)

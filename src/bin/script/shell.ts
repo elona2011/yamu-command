@@ -61,7 +61,7 @@ async function copyGlob(src: string, dest: string): Promise<void> {
 
 function getAddedPath(src: string, curSrc: string): string {
     let baseSrc,
-        r = /([^*]+)\/.*\*/.exec(src)
+        r = /([^*]+)\*/.exec(src)
 
     if (r && r.length) {
         baseSrc = r[1]
@@ -70,9 +70,6 @@ function getAddedPath(src: string, curSrc: string): string {
     }
 
     let path = curSrc.slice(baseSrc.length)
-    if (path.length && path[0] === '/') {
-        path = path.slice(1)
-    }
     return path
 }
 
