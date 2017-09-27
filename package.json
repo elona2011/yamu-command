@@ -1,46 +1,65 @@
 {
-  "name": "yamu",
-  "version": "0.1.17",
-  "description": "",
-  "main": "index.js",
-  "bin": "./built/bin/bin.js",
-  "scripts": {
-    "built": "yamu built built",
-    "yamu": "yamu",
-    "test": "nyc mocha -r ts-node/register test/**/*.ts"
-  },
-  "author": "elona2011",
-  "license": "MIT",
-  "dependencies": {
-    "chokidar": "^1.7.0",
-    "commander": "^2.11.0",
-    "fs-extra": "^4.0.2",
-    "glob": "^7.1.2",
-    "mime": "^2.0.2",
-    "opn": "^5.1.0",
-    "postcss": "^6.0.8",
-    "postcss-cssnext": "^3.0.2",
-    "showdown": "^1.7.3",
-    "ws": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/chokidar": "^1.7.2",
-    "@types/commander": "^2.9.2",
-    "@types/fs-extra": "^4.0.2",
-    "@types/glob": "^5.0.32",
-    "@types/mime": "^2.0.0",
-    "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.28",
-    "@types/opn": "^3.0.28",
-    "@types/rimraf": "^2.0.2",
-    "@types/showdown": "^1.7.1",
-    "@types/ws": "^3.0.2",
-    "chai": "^4.1.2",
-    "mocha": "^3.5.0",
-    "nyc": "^11.2.1",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.5.2",
-    "yamu": ">=0.0.43"
-  }
+    "name": "yamu",
+    "version": "0.1.17",
+    "description": "",
+    "main": "index.js",
+    "bin": "./built/bin/bin.js",
+    "scripts": {
+        "built": "yamu built built",
+        "yamu": "yamu",
+        "test": "nyc mocha -r ts-node/register test/**/*.ts"
+    },
+    "nyc": {
+        "include": [
+            "src/**/*.ts",
+            "src/**/*.tsx"
+        ],
+        "extension": [
+            ".ts",
+            ".tsx"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "text-summary",
+            "html"
+        ],
+        "sourceMap": true,
+        "instrument": true
+    },
+    "author": "elona2011",
+    "license": "MIT",
+    "dependencies": {
+        "chokidar": "^1.7.0",
+        "commander": "^2.11.0",
+        "fs-extra": "^4.0.2",
+        "glob": "^7.1.2",
+        "mime": "^2.0.2",
+        "opn": "^5.1.0",
+        "postcss": "^6.0.8",
+        "postcss-cssnext": "^3.0.2",
+        "showdown": "^1.7.3",
+        "ws": "^3.1.0"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.0.4",
+        "@types/chokidar": "^1.7.2",
+        "@types/commander": "^2.9.2",
+        "@types/fs-extra": "^4.0.2",
+        "@types/glob": "^5.0.32",
+        "@types/mime": "^2.0.0",
+        "@types/mocha": "^2.2.43",
+        "@types/node": "^8.0.28",
+        "@types/opn": "^3.0.28",
+        "@types/rimraf": "^2.0.2",
+        "@types/showdown": "^1.7.1",
+        "@types/ws": "^3.0.2",
+        "chai": "^4.1.2",
+        "mocha": "^3.5.0",
+        "nyc": "^11.2.1",
+        "ts-node": "^3.3.0",
+        "typescript": "^2.5.2",
+        "yamu": ">=0.0.43"
+    }
 }
