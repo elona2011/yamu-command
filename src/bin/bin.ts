@@ -41,9 +41,9 @@ program
  * produce the production code
  */
 program
-    .command('built [dir]')
-    .action((dir: string) => {
-        built(dir)
+    .command('built [dirFrom] [dirTo]')
+    .action((dirFrom: string, dirTo: string) => {
+        built(dirFrom, dirTo)
     })
 
 /**

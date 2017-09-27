@@ -1,8 +1,18 @@
+import { resolve } from 'path'
+import { readFileSync } from 'fs'
 import { expect } from 'chai'
-
+import { editJsonFile } from '../src/common/common'
 import { getCallerFileName, getPathFromStack } from '../src/common/output'
 
 describe('common test:', () => {
+    it('edit json file value', async () => {
+        let jsonPath = resolve(__dirname, 'source/tsconfig.json'),
+            jsonData
+
+        await editJsonFile(jsonPath, ['compilerOptions', 'outDir'], 'www')
+        jsonData = require(jsonPath)
+        expect(jsonData.compilerOptions.outDir).to.equal('www')
+    })
     it('getPathFromStack running in windows', () => {
         let path = '    at callFn (c:\\Users\\Documents\\git\\yamu-template\\node_modules\\mocha\\lib\\runnable.js:348:21)'
         expect(getPathFromStack(path)).to.equal('c:\\Users\\Documents\\git\\yamu-template\\node_modules\\mocha\\lib\\runnable.js')

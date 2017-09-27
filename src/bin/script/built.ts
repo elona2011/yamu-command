@@ -1,17 +1,27 @@
 import { spawn } from 'child_process'
-import { resolve } from 'path'
+import { resolve, join } from 'path'
 
 import { copyMul, rmRf } from './shell'
 import { log } from '../../common/output'
-import { cmdName } from '../../common/common'
+import { cmdName, editJsonFile } from '../../common/common'
 
-async function built(dir: string) {
-    let dirFrom = getDirFrom(),
-        dirTo = getDirTo(dir)
+let dirFromDef = 'src',
+    dirToDef = 'built'
 
-    log('delete built folder: ' + dirTo)
-    await rmRf(dirTo)
-    copyMul('src/**/*!(.ts)', 'built/')
+async function built(dirFrom: string, dirTo: string) {
+    let dirToAbs = getDirTo(dirTo)
+
+    log('delete built folder:', dirToAbs)
+    await rmRf(dirToAbs)
+    copyMul('src/**/!(*.ts)', 'built/')
+
+    //modify tsconfig.json
+    try {
+        await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['include'], [join(dirFrom || dirFromDef, '**/*')])
+        await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['compilerOptions', 'outDir'], dirTo || dirToDef)
+    } catch (error) {
+        console.error(error)
+    }
 
     //run tsc commandline
     let tsc = cmdName('tsc'),
@@ -26,16 +36,12 @@ async function built(dir: string) {
     child.stdout.pipe(process.stdout)
 }
 
-function getDirFrom(): string {
-    return resolve(process.cwd(), process.env.npm_package_config_product_from || 'src')
+function getDirFrom(dirFrom: string): string {
+    return resolve(process.cwd(), dirFrom || process.env.npm_package_config_product_from || dirFromDef)
 }
 
-function getDirTo(dir: string): string {
-    let dirTo = resolve(process.cwd(), process.env.npm_package_config_product_to || 'built')
-    if (dir) {
-        dirTo = resolve(process.cwd(), dir)
-    }
-    return dirTo
+function getDirTo(dirTo: string): string {
+    return resolve(process.cwd(), dirTo || process.env.npm_package_config_product_to || dirToDef)
 }
 
 export { built, getDirFrom, getDirTo }

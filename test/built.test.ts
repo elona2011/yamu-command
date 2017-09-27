@@ -5,7 +5,7 @@ import { getDirFrom, getDirTo } from '../src/bin/script/built'
 
 describe('Script built:', () => {
     it('default dirFrom === src', () => {
-        const result = getDirFrom()
+        const result = getDirFrom('')
         expect(result).to.equal(resolve(process.cwd(), 'src'))
     })
     it('default dirTo === built', () => {

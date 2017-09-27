@@ -36,12 +36,30 @@ package.json
 
 # Usage
 
-server
+## server
 
 ```
 yamu server 
 yamu server <path>
 ```
+
+## built
+
+built default folder (/src to /built)
+
+```
+yamu built
+```
+
+if package.json has key ``npm_package_config_product_from`` and ``npm_package_config_product_to``,it will be built from ``npm_package_config_product_from`` to ``npm_package_config_product_to``.
+
+built custom folder
+
+```
+yamu built [src] [dest]
+```
+
+## postCss
 
 pcss
 
@@ -49,6 +67,8 @@ pcss
 yamu pcss -f path/to/file.pcss
 yamu pcss -w path/to/file.pcss
 ```
+
+## others
 
 npmrc
 
