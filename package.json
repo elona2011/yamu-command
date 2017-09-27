@@ -7,7 +7,7 @@
   "scripts": {
     "built": "yamu built built",
     "yamu": "yamu",
-    "test": "mocha -r ts-node/register test/**/*.ts"
+    "test": "nyc mocha -r ts-node/register test/**/*.ts"
   },
   "author": "elona2011",
   "license": "MIT",

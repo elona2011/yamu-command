@@ -1,6 +1,8 @@
 nodejs实现的前端工程化命令行
 
+[![npm](https://img.shields.io/npm/v/yamu.svg)](https://www.npmjs.com/package/yamu)
 [![Build Status](https://travis-ci.org/elona2011/yamu-command.svg?branch=master)](https://travis-ci.org/elona2011/yamu-command)
+[![Coverage Status](https://coveralls.io/repos/github/elona2011/yamu-command/badge.svg?branch=master)](https://coveralls.io/github/elona2011/yamu-command?branch=master)
 
 # Features
 
