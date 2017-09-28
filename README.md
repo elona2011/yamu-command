@@ -47,19 +47,21 @@ yamu server <path>
 
 ## built
 
-built default folder (/src to /built)
+### built default folder (/src to /built)
 
 ```
 yamu built
 ```
 
-if package.json has key ``npm_package_config_product_from`` and ``npm_package_config_product_to``,it will be built from ``npm_package_config_product_from`` to ``npm_package_config_product_to``.
+If package.json has key ``npm_package_config_product_from`` and ``npm_package_config_product_to``,it will be built from ``npm_package_config_product_from`` to ``npm_package_config_product_to``.
 
-built custom folder
+### built custom folder
 
 ```
 yamu built [src] [dest]
 ```
+
+This will change two keys in tsconfig.json file ('outDir' and 'include')
 
 ## postCss
 

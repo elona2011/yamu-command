@@ -8,12 +8,12 @@ import { cmdName, editJsonFile } from '../../common/common'
 let dirFromDef = 'src',
     dirToDef = 'built'
 
-async function built(dirFrom: string, dirTo: string) {
+async function built(dirFrom?: string, dirTo?: string) {
     let dirToAbs = getDirTo(dirTo)
 
     log('delete built folder:', dirToAbs)
     await rmRf(dirToAbs)
-    copyMul(join(dirFrom, '/**/!(*.ts)'), dirToAbs)
+    copyMul(join(dirFrom || dirFromDef, '/**/!(*.ts)'), dirToAbs)
 
     //modify tsconfig.json
     try {
@@ -36,11 +36,11 @@ async function built(dirFrom: string, dirTo: string) {
     child.stdout.pipe(process.stdout)
 }
 
-function getDirFrom(dirFrom: string): string {
+function getDirFrom(dirFrom?: string): string {
     return resolve(process.cwd(), dirFrom || process.env.npm_package_config_product_from || dirFromDef)
 }
 
-function getDirTo(dirTo: string): string {
+function getDirTo(dirTo?: string): string {
     return resolve(process.cwd(), dirTo || process.env.npm_package_config_product_to || dirToDef)
 }
 
