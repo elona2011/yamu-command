@@ -13,7 +13,7 @@ async function built(dirFrom: string, dirTo: string) {
 
     log('delete built folder:', dirToAbs)
     await rmRf(dirToAbs)
-    copyMul('src/**/!(*.ts)', 'built/')
+    copyMul(join(dirFrom, '/**/!(*.ts)'), dirToAbs)
 
     //modify tsconfig.json
     try {

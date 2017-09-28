@@ -13,16 +13,23 @@ async function editJsonFile(filePath: string, key: string[], value: any): Promis
         if (!isAbsolute(filePath)) {
             throw new Error('filePath is not absolute path!')
         }
-        let tsconfig = require(filePath),
-            tmp = tsconfig
+        let tsconfig: JSON,
+            data: { [index: string]: any }
+
+        try {
+            tsconfig = require(filePath)
+            data = tsconfig
+        } catch (error) {
+            throw error
+        }
 
         for (let n of key) {
             if (key.lastIndexOf(n) === key.length - 1) {
-                tmp[n] = value
+                data[n] = value
             }
-            tmp = tmp[n]
+            data = data[n]
         }
-        
+
         writeFile(filePath, JSON.stringify(tsconfig, null, 4), err => {
             res()
         })

@@ -3,6 +3,12 @@ import { existsSync, stat, mkdirSync, rmdirSync, createWriteStream, createReadSt
 import * as glob from 'glob'
 import { log } from '../../common/output'
 
+/**
+ * 
+ * @param src 
+ * @param dest 
+ * @param dir 
+ */
 async function copyMul(src: string, dest: string, ...dir: string[]) {
     if (dir.length) {
         await copyRf(src, dir[dir.length - 1])
@@ -16,6 +22,9 @@ async function copyMul(src: string, dest: string, ...dir: string[]) {
 }
 
 async function copyRf(src: string, dest: string): Promise<void> {
+    src = resolve(src)
+    dest = resolve(dest)
+
     if (!existsSync(dest)) {
         mkdirSync(dest)
     }

@@ -1,4 +1,4 @@
-nodejs实现的前端工程化命令行
+a simple nodejs scaffold
 
 [![npm](https://img.shields.io/npm/v/yamu.svg)](https://www.npmjs.com/package/yamu)
 [![Build Status](https://travis-ci.org/elona2011/yamu-command.svg?branch=master)](https://travis-ci.org/elona2011/yamu-command)
