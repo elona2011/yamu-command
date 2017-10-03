@@ -1,7 +1,8 @@
-import { resolve } from 'path'
+import { resolve, sep, dirname } from 'path'
 import { existsSync, stat, mkdirSync, rmdirSync, createWriteStream, createReadStream, unlinkSync } from 'fs'
 import * as glob from 'glob'
 import { log } from '../../common/output'
+import { getFileTo } from '../../common/common'
 
 /**
  * 
@@ -43,10 +44,9 @@ async function copyGlob(src: string, dest: string): Promise<void> {
 
         glob(src, async (err, matches) => {
             for (let n of matches) {
-                let samePath = getAddedPath(src, n)
                 await new Promise((res1, rej1) => {
                     stat(n, (err, stats) => {
-                        let copyDest = resolve(dest, samePath)
+                        let copyDest = getFileTo(n, getGlobBase(src), dest)
                         log('copy:', n, 'to', copyDest)
                         if (stats.isDirectory()) {
                             if (!existsSync(copyDest)) {
@@ -68,18 +68,32 @@ async function copyGlob(src: string, dest: string): Promise<void> {
     })
 }
 
-function getAddedPath(src: string, curSrc: string): string {
-    let baseSrc,
-        r = /([^*]+)\*/.exec(src)
+function makeDirRecursive(path: string): void {
+    let dir = dirname(path)
+    if (!existsSync(dir)) {
+        makeDirRecursive(dir)
+        mkdirSync(dir)
+    }
+}
 
-    if (r && r.length) {
-        baseSrc = r[1]
-    } else {
-        return ''
+function getGlobBase(pattern: string): string {
+    if (!glob.hasMagic(pattern)) {
+        throw new Error('not Glob pattern')
+    }
+    if (!pattern.length) {
+        throw new Error('pattern could not be empty')
     }
 
-    let path = curSrc.slice(baseSrc.length)
-    return path
+    let arr = pattern.split(sep),
+        base = arr.shift() || ''
+    for (let n of arr) {
+        if (n.match(/\*/)) {
+            break
+        } else {
+            base += sep + n
+        }
+    }
+    return base
 }
 
 async function rmGlob(dir: string): Promise<any> {
@@ -113,4 +127,4 @@ async function rmRf(dir: string): Promise<any> {
     await rmGlob(dir + '/**')
 }
 
-export { copyMul, copyGlob, copyRf, rmGlob, rmRf, getAddedPath }
+export { copyMul, copyGlob, copyRf, rmGlob, rmRf, getGlobBase, makeDirRecursive }

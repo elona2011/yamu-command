@@ -1,47 +1,51 @@
 import { spawn } from 'child_process'
-import { resolve, join } from 'path'
-
-import { copyMul, rmRf } from './shell'
+import { resolve, join, relative } from 'path'
+import { readFile, writeFile } from 'fs'
+import { copyMul, rmRf, makeDirRecursive } from './fs'
 import { log } from '../../common/output'
-import { cmdName, editJsonFile } from '../../common/common'
+import { cmdName, editJsonFile, getDirFrom, getDirTo, getFileTo } from '../../common/common'
+import * as ts from 'typescript'
+import * as glob from 'glob'
 
-let dirFromDef = 'src',
-    dirToDef = 'built'
+let tsconfig = require(resolve('tsconfig.json'))
 
 async function built(dirFrom?: string, dirTo?: string) {
-    let dirToAbs = getDirTo(dirTo)
+    let dirToAbs = getDirTo(dirTo),
+        dirFromAbs = getDirFrom(dirFrom)
 
     log('delete built folder:', dirToAbs)
     await rmRf(dirToAbs)
-    copyMul(join(dirFrom || dirFromDef, '/**/!(*.ts)'), dirToAbs)
+    await copyMul(join(dirFromAbs, '/**/!(*.ts)'), dirToAbs)
 
+    glob(join(dirFromAbs, '**/*.ts'), (err, matches) => {
+        for (let n of matches) {
+            let dest = getFileTo(n, dirFromAbs, dirToAbs, '.js')
+            readFile(n, 'utf8', (err, data) => {
+                let result = ts.transpileModule(data, tsconfig.compilerOptions)
+                makeDirRecursive(n)
+                writeFile(dest, result.outputText, err => { if (err) throw err })
+            })
+        }
+    })
     //modify tsconfig.json
-    try {
-        await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['include'], [join(dirFrom || dirFromDef, '**/*')])
-        await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['compilerOptions', 'outDir'], dirTo || dirToDef)
-    } catch (error) {
-        console.error(error)
-    }
+    // try {
+    //     await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['include'], [join(dirFrom || dirFromDef, '**/*')])
+    //     await editJsonFile(resolve(process.cwd(), 'tsconfig.json'), ['compilerOptions', 'outDir'], dirTo || dirToDef)
+    // } catch (error) {
+    //     console.error(error)
+    // }
 
-    //run tsc commandline
-    let tsc = cmdName('tsc'),
-        child = spawn(tsc)
+    // //run tsc commandline
+    // let tsc = cmdName('tsc'),
+    //     child = spawn(tsc)
 
-    child.on('error', err => {
-        log(`${err}`)
-    })
-    child.on('close', code => {
-        log(`tsc exited with code ${code}`)
-    })
-    child.stdout.pipe(process.stdout)
+    // child.on('error', err => {
+    //     log(`${err}`)
+    // })
+    // child.on('close', code => {
+    //     log(`tsc exited with code ${code}`)
+    // })
+    // child.stdout.pipe(process.stdout)
 }
 
-function getDirFrom(dirFrom?: string): string {
-    return resolve(process.cwd(), dirFrom || process.env.npm_package_config_product_from || dirFromDef)
-}
-
-function getDirTo(dirTo?: string): string {
-    return resolve(process.cwd(), dirTo || process.env.npm_package_config_product_to || dirToDef)
-}
-
-export { built, getDirFrom, getDirTo }
+export { built }

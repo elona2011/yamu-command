@@ -1,23 +1,33 @@
 import { existsSync, readFileSync } from 'fs'
 import { resolve, join } from 'path'
 import { expect } from 'chai'
-import { copyGlob, copyRf, rmGlob, rmRf, getAddedPath } from '../src/bin/script/shell'
+import { copyGlob, copyRf, rmGlob, rmRf, getGlobBase, makeDirRecursive } from '../src/bin/script/fs'
 
 describe('shell test:', () => {
-    it('getAddedPath in linux', () => {
-        let path = getAddedPath('a/b/c/**', 'a/b/c/d/e')
-        expect(path).to.equal('d/e')
+    it('getGlobBase', () => {
+        if (/^win/.test(process.platform)) {
+            let path = getGlobBase('c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc\\**')
+            expect(path).to.equal('c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc')
+        } else {
+            let path = getGlobBase('/a/b/c/**')
+            expect(path).to.equal('/a/b/c')
+        }
     })
 
-    it('getAddedPath in windows', () => {
-        let path = getAddedPath('c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc\\**', 'c:\\Users\\Documents\\git\\yamu-template\\test\\source\\copysrc\\copytest')
-        expect(path).to.equal('copytest')
+    it('makeDirRecursive', async () => {
+        let destDir = resolve(__dirname, 'source/a/b/c/d/a.a'),
+            destFile = resolve(destDir, 'a.a'),
+            rmDir = resolve(__dirname, 'source/a')
+
+        await rmRf(rmDir)
+        makeDirRecursive(destFile)
+        expect(existsSync(destDir)).to.equal(true)
+        await rmRf(rmDir)
     })
 
     it('del a directory success', async () => {
         let dest = resolve(__dirname, './source/copydest'),
-            src = resolve(__dirname, './source/copysrc/**'),
-            copytest
+            src = resolve(__dirname, './source/copysrc/**')
 
         await rmRf(dest)
         await copyGlob(src, dest)

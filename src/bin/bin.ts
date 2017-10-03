@@ -6,7 +6,7 @@ import { built } from './script/built'
 import { serverInit } from './script/server'
 import { tpl } from './script/tpl'
 import { npmrc, changeNode } from './script/speed'
-import { copyMul, rmGlob } from './script/shell'
+import { copyMul, rmGlob } from './script/fs'
 
 /**
  * change nodejs version
