@@ -68,6 +68,10 @@ async function copyGlob(src: string, dest: string): Promise<void> {
     })
 }
 
+/**
+ * 
+ * @param path should be a file path
+ */
 function makeDirRecursive(path: string): void {
     let dir = dirname(path)
     if (!existsSync(dir)) {
