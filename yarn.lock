@@ -65,8 +65,8 @@
   resolved "https://registry.yarnpkg.com/@types/showdown/-/showdown-1.7.1.tgz#9ba121fc2b2dcad646040034a5581e82ccecc066"
 
 "@types/ws@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-3.0.2.tgz#b538b6a16daee454ac04054991271f3da38772de"
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-3.2.0.tgz#988ff690e6ed10068a86aa0e9f842d0a03c09e21"
   dependencies:
     "@types/node" "*"
 
@@ -379,8 +379,8 @@ caniuse-api@^2.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000718, caniuse-lite@^1.0.30000726:
-  version "1.0.30000741"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000741.tgz#bc526bc2046e6bc38737cfd77d3026ef04b8f464"
+  version "1.0.30000742"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000742.tgz#b5ac8a4a6f36e40a33a6188a8a8bdf8460c32d25"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -2700,8 +2700,8 @@ yallist@^2.1.2:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 yamu@>=0.0.43:
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.23.tgz#d957a2d188afa8e1487becc91a76051315296564"
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/yamu/-/yamu-0.1.27.tgz#52005d404db1a0648c1b3e37428d6e3b01b5528c"
   dependencies:
     chokidar "^1.7.0"
     commander "^2.11.0"
@@ -2712,6 +2712,7 @@ yamu@>=0.0.43:
     postcss "^6.0.8"
     postcss-cssnext "^3.0.2"
     showdown "^1.7.3"
+    typescript "^2.5.2"
     ws "^3.1.0"
 
 yargs-parser@^5.0.0:

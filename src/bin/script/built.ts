@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { resolve, join, relative, dirname } from 'path'
+import { resolve, join, relative, dirname, basename } from 'path'
 import { readFile, writeFile } from 'fs'
 import { copyMul, rmRf, makeDirRecursive } from './fs'
 import { parseCss } from './pcss'
@@ -8,11 +8,34 @@ import { cmdName, editJsonFile, getDirFrom, getDirTo, getFileTo } from '../../co
 import * as ts from 'typescript'
 import * as glob from 'glob'
 
-let tsconfig = require(resolve('tsconfig.json'))
-
 async function built(dirFrom?: string, dirTo?: string) {
     let dirToAbs = getDirTo(dirTo),
-        dirFromAbs = getDirFrom(dirFrom)
+        dirFromAbs = getDirFrom(dirFrom),
+        tsconfig: any
+
+    try {
+        tsconfig = require(resolve('tsconfig.json'))
+    } catch (error) {
+        log(error.message)
+        log('use default tsconfig setting')
+        tsconfig = {
+            "compilerOptions": {
+                "strictNullChecks": true,
+                "module": "commonjs",
+                "allowJs": false,
+                "target": "es5",
+                "outDir": "built",
+                "lib": [
+                    "es5",
+                    "es6",
+                    "dom"
+                ],
+                "noImplicitAny": true,
+                "removeComments": true,
+                "sourceMap": true
+            }
+        }
+    }
 
     log('delete built folder:', dirToAbs)
     await rmRf(dirToAbs)
@@ -20,11 +43,19 @@ async function built(dirFrom?: string, dirTo?: string) {
 
     glob(join(dirFromAbs, '**/*.ts'), (err, matches) => {
         for (let n of matches) {
-            let dest = getFileTo(n, dirFromAbs, dirToAbs, '.js')
+            let destJs = getFileTo(n, dirFromAbs, dirToAbs, '.js'),
+                destMap = getFileTo(n, dirFromAbs, dirToAbs, '.js.map')
             readFile(n, 'utf8', (err, data) => {
-                let result = ts.transpileModule(data, tsconfig.compilerOptions)
+                tsconfig.fileName = relative(dirname(dirname(destMap)), n)
+                let result = ts.transpileModule(data, tsconfig)
                 makeDirRecursive(n)
-                writeFile(dest, result.outputText, err => { if (err) throw err })
+                if (result.diagnostics && result.diagnostics.length) {
+                    log('ts parse error:', result.diagnostics)
+                }
+                writeFile(destJs, result.outputText, err => { if (err) throw err })
+                if (tsconfig.compilerOptions.sourceMap) {
+                    writeFile(destMap, result.sourceMapText, err => { if (err) throw err })
+                }
             })
         }
     })
